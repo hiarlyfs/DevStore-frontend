@@ -25,11 +25,11 @@ const Menu: React.FC = () => {
         <Link className={styles.link} to="/shop?category=framework">
           <Typography className={styles.menuOption}>Frameworks</Typography>
         </Link>
-        <Link className={styles.link} to="/shop?category=linguagens">
-          <Typography className={styles.menuOption}>Linguagens</Typography>
+        <Link className={styles.link} to="/shop?category=languages">
+          <Typography className={styles.menuOption}>Languages</Typography>
         </Link>
-        <Link className={styles.link} to="/shop?category=ferramentas">
-          <Typography className={styles.menuOption}>Ferramentas</Typography>
+        <Link className={styles.link} to="/shop?category=tools">
+          <Typography className={styles.menuOption}>Tools</Typography>
         </Link>
       </Box>
     </Box>
