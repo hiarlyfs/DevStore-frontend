@@ -22,7 +22,7 @@ const Menu: React.FC = () => {
         <Link className={styles.link} to="/shop">
           <Typography className={styles.menuOption}>Shop</Typography>
         </Link>
-        <Link className={styles.link} to="/shop?category=framework">
+        <Link className={styles.link} to="/shop?category=frameworks">
           <Typography className={styles.menuOption}>Frameworks</Typography>
         </Link>
         <Link className={styles.link} to="/shop?category=languages">
