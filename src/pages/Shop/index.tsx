@@ -37,7 +37,7 @@ const Shop: React.FC = () => {
       </Typography>
       <Grid className={styles.productsGridContainer} container spacing={10}>
         {products.map((product) => (
-          <Grid lg={4} className={styles.productGridItem} item>
+          <Grid key={product.id} lg={4} className={styles.productGridItem} item>
             <ProductComponent {...product} />
           </Grid>
         ))}
