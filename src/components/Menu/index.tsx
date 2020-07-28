@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import { Link } from 'react-router-dom';
-import Card from '../Card';
+import Cart from '../Cart';
 
 import logo from '../../asssets/logo.png';
 
@@ -37,7 +37,7 @@ const Menu: React.FC = () => {
           <ShoppingCartIcon className={styles.cardIcon} />
           <Typography className={styles.cardProductsNumber}>0</Typography>
           <Box top={40} position="absolute">
-            <Card />
+            <Cart />
           </Box>
         </Box>
       </Box>
