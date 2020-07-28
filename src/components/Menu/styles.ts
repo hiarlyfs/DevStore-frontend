@@ -14,7 +14,33 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 40,
+    position: 'relative',
+  },
+
+  cardContainer: {
+    right: '15vw',
+    position: 'absolute',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+
+  cardIcon: {
+    fontSize: 28,
+  },
+
+  cardProductsNumber: {
+    backgroundColor: 'orange',
+    color: '#fff',
+    position: 'absolute',
+    borderRadius: 30,
+    width: 17,
+    textAlign: 'center',
+    top: -10,
+    right: -15,
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 
   logoLoja: {
