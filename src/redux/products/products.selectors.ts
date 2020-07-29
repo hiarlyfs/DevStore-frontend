@@ -1,11 +1,22 @@
 import { createSelector } from 'reselect';
 
-import { IREDUCER_STATE } from './products.interface';
+import { IProductsReducerState } from './products.interface';
+import { IReducer } from '../root-reducer.interface';
 
-const selectProducts = (state: { products: IREDUCER_STATE }): IREDUCER_STATE =>
+const selectProducts = (state: IReducer): IProductsReducerState =>
   state.products;
 
-export const selectProductsItem = createSelector(
+export const selectProductsItems = createSelector(
   [selectProducts],
   (products) => products.productsItems,
+);
+
+export const selectIsFetchingProducts = createSelector(
+  [selectProducts],
+  (products) => products.isFetching,
+);
+
+export const selectFailureProducts = createSelector(
+  [selectProducts],
+  (products) => products.failure,
 );

@@ -1,5 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
+import { Dispatch } from 'redux';
+import { useLocation } from 'react-router-dom';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -8,36 +10,48 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import { useLocation } from 'react-router-dom';
-import { Dispatch } from 'redux';
-
+import Spinner from '../../components/Spinner';
 import ProductComponent from '../../components/ProductComponent';
 
 import useStyles from './styles';
 
 import { fetchProductsStart } from '../../redux/products/products.actions';
-import { selectProductsItem } from '../../redux/products/products.selectors';
+import {
+  selectProductsItems,
+  selectIsFetchingProducts,
+  selectFailureProducts,
+} from '../../redux/products/products.selectors';
 import { Product } from '../../types/Products';
+import { IProductsReducerState } from '../../redux/products/products.interface';
+
+interface ISelectorStateToProps {
+  products: IProductsReducerState;
+}
 
 interface IMapDispatchToProps {
-  getProducts: () => void;
+  getProducts: (category?: string) => void;
 }
 
 interface IMapStateToProps {
   products: Product[];
+  loadingProducts: boolean;
+  failure: Error | null;
 }
 
-interface IProps extends IMapDispatchToProps, IMapStateToProps {
-  getProducts: () => void;
-  products: Product[];
-}
+interface IProps extends IMapDispatchToProps, IMapStateToProps {}
 
-const Shop: React.FC<IProps> = ({ getProducts, products }: IProps) => {
+const Shop: React.FC<IProps> = ({
+  getProducts,
+  products,
+  loadingProducts,
+  failure,
+}: IProps) => {
   const { search } = useLocation();
+  const categoryUrl = new URLSearchParams(search).get('category');
+
   useEffect(() => {
-    getProducts();
-  }, [getProducts]);
-  const category = new URLSearchParams(search).get('category');
+    getProducts(categoryUrl || '');
+  }, [getProducts, categoryUrl]);
 
   const styles = useStyles();
   return (
@@ -46,23 +60,48 @@ const Shop: React.FC<IProps> = ({ getProducts, products }: IProps) => {
       <Typography className={styles.subtitle}>
         Choose with intelligence
       </Typography>
-      <Grid className={styles.productsGridContainer} container spacing={10}>
-        {products.map((product) => (
-          <Grid key={product.id} lg={4} className={styles.productGridItem} item>
-            <ProductComponent {...product} />
-          </Grid>
-        ))}
-      </Grid>
+
+      {loadingProducts ? (
+        <Spinner />
+      ) : (
+        <Grid className={styles.productsGridContainer} container spacing={10}>
+          {products.map((product) => {
+            const { id, image, name, price, category } = product;
+
+            return (
+              <Grid
+                key={product.id}
+                lg={4}
+                className={styles.productGridItem}
+                item
+              >
+                <ProductComponent
+                  id={id}
+                  name={name}
+                  price={price}
+                  category={category}
+                  image={image}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
     </Box>
   );
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
-  getProducts: () => dispatch(fetchProductsStart()),
+  getProducts: (category?: string) => dispatch(fetchProductsStart(category)),
 });
 
-const mapStateToProps = createStructuredSelector<any, any>({
-  products: selectProductsItem,
+const mapStateToProps = createStructuredSelector<
+  ISelectorStateToProps,
+  IMapStateToProps
+>({
+  products: selectProductsItems,
+  loadingProducts: selectIsFetchingProducts,
+  failure: selectFailureProducts,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Shop);

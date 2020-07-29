@@ -1,9 +1,8 @@
 import ProductTypes from './products.types';
 
-import { IACTION, IREDUCER_STATE } from './products.interface';
-import { Product } from '../../types/Products';
+import { IProductsAction, IProductsReducerState } from './products.interface';
 
-const INITIAL_STATE: IREDUCER_STATE = {
+const INITIAL_STATE: IProductsReducerState = {
   productsItems: [],
   isFetching: false,
   failure: null,
@@ -11,8 +10,8 @@ const INITIAL_STATE: IREDUCER_STATE = {
 
 const productsReducer = (
   state = INITIAL_STATE,
-  action: IACTION,
-): IREDUCER_STATE => {
+  action: IProductsAction,
+): IProductsReducerState => {
   switch (action.type) {
     case ProductTypes.FETCH_PRODUCTS_START:
       return {

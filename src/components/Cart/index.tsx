@@ -14,6 +14,8 @@ const Card: React.FC = () => {
     <Box className={styles.container}>
       <ArrowDropUpIcon className={styles.arrowUp} />
       <ProductCart />
+      <ProductCart />
+      <ProductCart />
     </Box>
   );
 };

@@ -6,7 +6,6 @@ import {
   AllEffect,
   CallEffect,
   ForkEffect,
-  PutEffect,
 } from 'redux-saga/effects';
 
 import { getProducts } from '../../services/api/apiProducts';
@@ -14,16 +13,18 @@ import { getProducts } from '../../services/api/apiProducts';
 import { fetchProductsError, fetchProductsSuccess } from './products.actions';
 
 import ProductsTypes from './products.types';
-import { IACTION } from './products.interface';
 import { Product } from '../../types/Products';
 
-function* putProducts(products: Product[]): Generator<PutEffect<IACTION>> {
-  yield put(fetchProductsSuccess(products));
-}
-
-function* fetchProductsAsync(): Generator<any, any, any> {
+function* fetchProductsAsync({
+  category,
+}: {
+  type: typeof ProductsTypes.FETCH_PRODUCTS_START;
+  category: string;
+}): Generator<any, any, any> {
   try {
-    const data: Product[] = yield Promise.resolve(getProducts('local'));
+    const data: Product[] = yield Promise.resolve(
+      getProducts('local', category),
+    );
     yield put(fetchProductsSuccess(data));
   } catch (error) {
     yield put(fetchProductsError());
