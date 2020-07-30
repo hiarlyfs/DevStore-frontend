@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { Dispatch } from 'redux';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { createStructuredSelector } from 'reselect';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import Box from '@material-ui/core/Box';
@@ -22,11 +22,7 @@ import {
   selectFailureProducts,
 } from '../../redux/products/products.selectors';
 import { Product } from '../../types/Products';
-import { IProductsReducerState } from '../../redux/products/products.interface';
-
-interface ISelectorStateToProps {
-  products: IProductsReducerState;
-}
+import { IReducer } from '../../redux/root-reducer.interface';
 
 interface IMapDispatchToProps {
   getProducts: (category?: string) => void;
@@ -44,7 +40,6 @@ const Shop: React.FC<IProps> = ({
   getProducts,
   products,
   loadingProducts,
-  failure,
 }: IProps) => {
   const { search } = useLocation();
   const categoryUrl = new URLSearchParams(search).get('category');
@@ -95,10 +90,7 @@ const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
   getProducts: (category?: string) => dispatch(fetchProductsStart(category)),
 });
 
-const mapStateToProps = createStructuredSelector<
-  ISelectorStateToProps,
-  IMapStateToProps
->({
+const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
   products: selectProductsItems,
   loadingProducts: selectIsFetchingProducts,
   failure: selectFailureProducts,

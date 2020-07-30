@@ -6,12 +6,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     padding: 20,
     position: 'relative',
-
-    // '&:hover': {
-    //   '& > div': {
-    //     display: 'flex',
-    //   },
-    // },
   },
 
   productImage: {

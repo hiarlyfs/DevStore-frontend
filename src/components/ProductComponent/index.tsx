@@ -1,4 +1,8 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { Dispatch } from 'redux';
+
+import { connect } from 'react-redux';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -8,13 +12,24 @@ import Fade from '@material-ui/core/Fade';
 
 import { Product } from '../../types/Products';
 
+import { addToCard } from '../../redux/cart/cart.actions';
+
 import useStyles from './styles';
 
-const ProductComponent: React.FC<Product> = ({
+interface IMapDispatchToProps {
+  addToCart: (product: Product) => void;
+}
+
+interface IProps extends IMapDispatchToProps, Product {}
+
+const ProductComponent: React.FC<IProps> = ({
   image,
   name,
   price,
-}: Product) => {
+  category,
+  id,
+  addToCart,
+}: IProps) => {
   const styles = useStyles();
   const [showDetails, setShowDetails] = useState(false);
 
@@ -33,7 +48,11 @@ const ProductComponent: React.FC<Product> = ({
           <Typography className={styles.priceHover}>
             R${price.toFixed(2)}
           </Typography>
-          <Button className={styles.addToCardBt} variant="outlined">
+          <Button
+            onClick={() => addToCart({ image, price, category, id, name })}
+            className={styles.addToCardBt}
+            variant="outlined"
+          >
             <AddShoppingCartIcon fontSize="small" />
             <Typography className={styles.btMessage}>Add to Cart</Typography>
           </Button>
@@ -56,4 +75,8 @@ const ProductComponent: React.FC<Product> = ({
   );
 };
 
-export default ProductComponent;
+const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
+  addToCart: (product: Product) => dispatch(addToCard(product)),
+});
+
+export default connect(null, mapDispatchToProps)(ProductComponent);

@@ -7,6 +7,10 @@ const useStyles = makeStyles({
     width: '100%',
     justifyContent: 'space-around',
     alignItems: 'center',
+    borderBottom: '2px solid #d3d3d3',
+    marginBottom: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
   },
 
   productImage: {
@@ -19,7 +23,8 @@ const useStyles = makeStyles({
   nameProduct: {
     color: '#000',
     fontSize: 20,
-    maxWidth: 80,
+    maxWidth: 180,
+    width: '100%',
     overflowWrap: 'break-word',
   },
 

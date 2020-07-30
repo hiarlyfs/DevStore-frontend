@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     right: -30,
     position: 'absolute',
     boxShadow: '0px 0px 10px #999',
-    width: 250,
+    width: 450,
     backgroundColor: '#fff',
     zIndex: 5,
   },
