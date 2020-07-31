@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './styles';
 
+import QuantityProduct from '../QuantityProduct';
 import { IProductCart } from '../../redux/cart/cart.interfaces';
 
 const ProductCard: React.FC<IProductCart> = ({
@@ -21,7 +22,7 @@ const ProductCard: React.FC<IProductCart> = ({
     <Box className={containerStyles}>
       <img src={image} alt="Product" className={styles.productImage} />
       <Typography className={styles.nameProduct}>{name}</Typography>
-      {/* TODO criar componente de alterar quantidade do produto no cart */}
+      <QuantityProduct quantity={quantity} id={id} />
       <Typography className={styles.productPrice}>
         R$ {price.toFixed(2)}
       </Typography>

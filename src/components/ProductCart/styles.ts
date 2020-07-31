@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   nameProduct: {
     color: '#000',
     fontSize: 20,
-    maxWidth: 180,
+    maxWidth: 200,
     width: '100%',
     overflowWrap: 'break-word',
   },
@@ -32,6 +32,9 @@ const useStyles = makeStyles({
     color: '#000',
     fontSize: 20,
     fontWeight: 'bold',
+    maxWidth: '120px',
+    textAlign: 'end',
+    width: '100%',
   },
 });
 

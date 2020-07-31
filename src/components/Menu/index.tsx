@@ -2,7 +2,6 @@ import React from 'react';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import { Link } from 'react-router-dom';
 import Cart from '../Cart';
@@ -34,11 +33,7 @@ const Menu: React.FC = () => {
           <Typography className={styles.menuOption}>Tools</Typography>
         </Link>
         <Box className={styles.cardContainer}>
-          <ShoppingCartIcon className={styles.cardIcon} />
-          <Typography className={styles.cardProductsNumber}>0</Typography>
-          <Box top={40} position="absolute">
-            <Cart />
-          </Box>
+          <Cart />
         </Box>
       </Box>
     </Box>

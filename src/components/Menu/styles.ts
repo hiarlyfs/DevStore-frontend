@@ -26,23 +26,6 @@ const useStyles = makeStyles({
     flexDirection: 'row',
   },
 
-  cardIcon: {
-    fontSize: 28,
-  },
-
-  cardProductsNumber: {
-    backgroundColor: 'orange',
-    color: '#fff',
-    position: 'absolute',
-    borderRadius: 30,
-    width: 17,
-    textAlign: 'center',
-    top: -10,
-    right: -15,
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-
   logoLoja: {
     maxHeight: '71px',
     height: '100%',

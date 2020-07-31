@@ -17,7 +17,7 @@ import { addToCard } from '../../redux/cart/cart.actions';
 import useStyles from './styles';
 
 interface IMapDispatchToProps {
-  addToCart: (product: Product) => void;
+  addTProductoCart: (product: Product) => void;
 }
 
 interface IProps extends IMapDispatchToProps, Product {}
@@ -28,7 +28,7 @@ const ProductComponent: React.FC<IProps> = ({
   price,
   category,
   id,
-  addToCart,
+  addTProductoCart,
 }: IProps) => {
   const styles = useStyles();
   const [showDetails, setShowDetails] = useState(false);
@@ -49,7 +49,9 @@ const ProductComponent: React.FC<IProps> = ({
             R${price.toFixed(2)}
           </Typography>
           <Button
-            onClick={() => addToCart({ image, price, category, id, name })}
+            onClick={() => {
+              addTProductoCart({ image, price, category, id, name });
+            }}
             className={styles.addToCardBt}
             variant="outlined"
           >
@@ -76,7 +78,7 @@ const ProductComponent: React.FC<IProps> = ({
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
-  addToCart: (product: Product) => dispatch(addToCard(product)),
+  addTProductoCart: (product: Product) => dispatch(addToCard(product)),
 });
 
 export default connect(null, mapDispatchToProps)(ProductComponent);

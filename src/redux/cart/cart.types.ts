@@ -3,8 +3,8 @@ const CartTypes = {
   DECREASE_ITEM_UNIT: 'DECREASE_ITEM_UNIT',
   ADD_ITEM_UNIT: 'ADD_ITEM_UNIT',
   DELETE_ITEM: 'DELETE_ITEM',
+  HIDE_CART: 'HIDE_CART',
+  SHOW_CART: 'SHOW_CART',
 };
-
-// TODO: Type que indica se o cart deve ser mostrado ou escondido
 
 export default CartTypes;

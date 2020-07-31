@@ -6,9 +6,10 @@ export interface IProductCart extends Product {
 
 export interface ICartReducerState {
   products: IProductCart[];
+  hidden: boolean;
 }
 
 export interface ICartAction {
   type: string;
-  payload: Product;
+  payload?: Product | number;
 }
