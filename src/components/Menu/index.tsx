@@ -16,7 +16,7 @@ const Menu: React.FC = () => {
   return (
     <Box className={styles.container}>
       <img className={styles.logoLoja} src={logo} alt="Logo loja" />
-      <Box className={styles.containerMenuOption}>
+      <Box id="menu" className={styles.containerMenuOption}>
         <Link className={styles.link} to="/">
           <Typography className={styles.menuOption}>Home</Typography>
         </Link>

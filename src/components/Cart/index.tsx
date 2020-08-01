@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -83,13 +85,15 @@ const Card: React.FC<IProps> = ({
                   R${totalCart.toFixed(2)}
                 </Typography>
               </Box>
-              <Button
-                variant="outlined"
-                fullWidth
-                className={styles.checkoutButton}
-              >
-                Proceed to checkout
-              </Button>
+              <Link to="/cart">
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  className={styles.checkoutButton}
+                >
+                  Go to cart
+                </Button>
+              </Link>
             </Box>
           ) : (
             <Typography className={styles.emptyMessage}>

@@ -1,6 +1,11 @@
 import CartTypes from './cart.types';
 import { ICartAction, ICartReducerState } from './cart.interfaces';
-import { addNewProduct, addUnitProduct, removeUnitProduct } from './cart.utils';
+import {
+  addNewProduct,
+  addUnitProduct,
+  removeUnitProduct,
+  deleteProduct,
+} from './cart.utils';
 import { Product } from '../../types/Products';
 
 const INITIAL_STATE: ICartReducerState = {
@@ -38,6 +43,12 @@ export const CartReducer = (
       return {
         ...state,
         products: removeUnitProduct(state.products, action.payload as number),
+      };
+    }
+    case CartTypes.DELETE_ITEM: {
+      return {
+        ...state,
+        products: deleteProduct(state.products, action.payload as number),
       };
     }
     default:

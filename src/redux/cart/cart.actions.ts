@@ -24,3 +24,8 @@ export const decreaseUnitProduct = (idProduct: number): ICartAction => ({
   type: CartTypes.DECREASE_ITEM_UNIT,
   payload: idProduct,
 });
+
+export const deleteProduct = (idProduct: number): ICartAction => ({
+  type: CartTypes.DELETE_ITEM,
+  payload: idProduct,
+});
