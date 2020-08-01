@@ -10,6 +10,7 @@ import Fade from '@material-ui/core/Fade';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Typography from '@material-ui/core/Typography';
 
+import { Button } from '@material-ui/core';
 import ProductCart from '../ProductCart';
 
 import { IReducer } from '../../redux/root-reducer.interface';
@@ -19,6 +20,7 @@ import {
   selectProductsCart,
   selectCartHidden,
   selectQtdItemsCart,
+  selectTotalCart,
 } from '../../redux/cart/cart.selectors';
 import { hideCart, showCart } from '../../redux/cart/cart.actions';
 
@@ -33,6 +35,7 @@ interface IMapStateToProps {
   productsCart: IProductCart[];
   cartHidden: boolean;
   numberProducts: number;
+  totalCart: number;
 }
 
 interface IProps {
@@ -41,6 +44,7 @@ interface IProps {
   closeCart: () => void;
   openCart: () => void;
   numberProducts: number;
+  totalCart: number;
 }
 
 const Card: React.FC<IProps> = ({
@@ -49,6 +53,7 @@ const Card: React.FC<IProps> = ({
   closeCart,
   openCart,
   numberProducts,
+  totalCart,
 }: IProps) => {
   const styles = useStyles();
 
@@ -63,13 +68,34 @@ const Card: React.FC<IProps> = ({
         {numberProducts}
       </Typography>
 
-      <Fade in>
+      <Fade in={!cartHidden}>
         <Box className={styles.productsContainer}>
           <ArrowDropUpIcon className={styles.arrowUp} />
           {productsCart.map((product) => (
             // eslint-disable-next-line react/jsx-props-no-spreading
             <ProductCart {...product} />
           ))}
+          {productsCart.length > 0 ? (
+            <Box>
+              <Box className={styles.totalContainer}>
+                <Typography className={styles.totalCart}>Total</Typography>
+                <Typography className={styles.priceTotalCart}>
+                  R${totalCart.toFixed(2)}
+                </Typography>
+              </Box>
+              <Button
+                variant="outlined"
+                fullWidth
+                className={styles.checkoutButton}
+              >
+                Proceed to checkout
+              </Button>
+            </Box>
+          ) : (
+            <Typography className={styles.emptyMessage}>
+              Your cart is empty
+            </Typography>
+          )}
         </Box>
       </Fade>
     </Box>
@@ -85,6 +111,7 @@ const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
   productsCart: selectProductsCart,
   cartHidden: selectCartHidden,
   numberProducts: selectQtdItemsCart,
+  totalCart: selectTotalCart,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Card);

@@ -42,6 +42,46 @@ const useStyles = makeStyles({
     top: -33,
     right: -19,
   },
+
+  totalContainer: {
+    padding: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    width: '95%',
+    justifyContent: 'space-between',
+  },
+
+  totalCart: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#808080',
+  },
+
+  priceTotalCart: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+
+  checkoutButton: {
+    backgroundColor: '#1E90FF',
+    color: '#fff',
+    border: 0,
+    fontSize: 18,
+
+    '&:hover': {
+      backgroundColor: '#00BFFF',
+    },
+  },
+
+  emptyMessage: {
+    fontSize: 20,
+    color: '#000',
+    fontWeight: 'bold',
+    width: '96%',
+    textAlign: 'center',
+    padding: 10,
+  },
 });
 
 export default useStyles;
