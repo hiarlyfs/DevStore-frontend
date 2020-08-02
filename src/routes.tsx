@@ -6,6 +6,7 @@ import Menu from './components/Menu';
 const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
 const Cart = lazy(() => import('./pages/Cart'));
+const Login = lazy(() => import('./pages/Login'));
 
 const Routes: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
         <Route path="/" exact component={Home} />
         <Route path="/shop" exact component={Shop} />
         <Route path="/cart" exact component={Cart} />
+        <Route path="/login" exact component={Login} />
       </BrowserRouter>
     </Suspense>
   );
