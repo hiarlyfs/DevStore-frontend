@@ -4,10 +4,24 @@ const useStyles = makeStyles({
   container: {
     position: 'absolute',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    alignItems: 'center',
     marginTop: 250,
     width: '100%',
-    justifyContent: 'space-around',
+  },
+
+  identificationTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+
+  contentContainer: {
+    marginTop: 50,
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '50%',
   },
 });
 

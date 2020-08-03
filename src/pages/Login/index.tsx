@@ -2,6 +2,7 @@ import React from 'react';
 
 import Box from '@material-ui/core/Box';
 
+import Typography from '@material-ui/core/Typography';
 import LoginForm from '../../components/LoginForm';
 
 import useStyles from './styles';
@@ -12,8 +13,13 @@ const Login: React.FC = () => {
 
   return (
     <Box className={styles.container}>
-      <LoginForm />
-      <RegisterForm />
+      <Typography className={styles.identificationTitle}>
+        Identification
+      </Typography>
+      <Box className={styles.contentContainer}>
+        <LoginForm />
+        <RegisterForm />
+      </Box>
     </Box>
   );
 };
