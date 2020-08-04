@@ -1,4 +1,4 @@
-import * as firebaseApp from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 const config = {
@@ -12,5 +12,5 @@ const config = {
   measurementId: 'G-9JT8YTD1R3',
 };
 
-export const firebase = firebaseApp.initializeApp(config);
-export const firebaseAuth = firebaseApp.auth();
+export const firebaseApp = firebase.initializeApp(config);
+export const firebaseAuth = firebase.auth();

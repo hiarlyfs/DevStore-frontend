@@ -2,11 +2,29 @@ import { User } from 'firebase';
 import UserTypes from './user.types';
 import { IUserAction } from './user.interfaces';
 
-export const signIn = (user: User): IUserAction => ({
-  type: UserTypes.SIGN_IN,
+export const signInSuccess = (user: User): IUserAction => ({
+  type: UserTypes.SET_USER,
   payload: user,
 });
 
-export const signOut = (): IUserAction => ({
-  type: UserTypes.SIGN_OUT,
+export const googleSignInStart = (): IUserAction => ({
+  type: UserTypes.GOOGLE_SIGN_IN_START,
+});
+
+export const googleSignInFailure = (failure: Error): IUserAction => ({
+  type: UserTypes.GOOGLE_SIGN_IN_FAILURE,
+  payload: failure,
+});
+
+export const emailSignInStart = (emailAndPassword: {
+  email: string;
+  password: string;
+}): IUserAction => ({
+  type: UserTypes.EMAIL_SIGN_IN_START,
+  payload: emailAndPassword,
+});
+
+export const emailSignInFailure = (failure: Error): IUserAction => ({
+  type: UserTypes.EMAIL_SIGN_IN_FAILURE,
+  payload: failure,
 });

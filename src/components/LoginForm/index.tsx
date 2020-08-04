@@ -1,5 +1,8 @@
 import React, { useState, useCallback } from 'react';
 
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+
 import { FcGoogle } from 'react-icons/fc';
 
 import Box from '@material-ui/core/Box';
@@ -7,11 +10,25 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import { signInWithGoogle, signIn } from '../../firebase/firebaseUtils';
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from '../../redux/user/user.actions';
 
 import useStyles from './styles';
 
-const LoginForm: React.FC = () => {
+interface IMapDispatchToProps {
+  signInWithGoogle: () => void;
+  signInWithEmail: (emailAndPassword: {
+    email: string;
+    password: string;
+  }) => void;
+}
+
+const LoginForm: React.FC<IMapDispatchToProps> = ({
+  signInWithGoogle,
+  signInWithEmail,
+}: IMapDispatchToProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -59,7 +76,7 @@ const LoginForm: React.FC = () => {
           onClick={(event) => {
             if (email && password) {
               event.preventDefault();
-              signIn(email, password);
+              signInWithEmail({ email, password });
             }
           }}
           className={styles.loginButton}
@@ -82,4 +99,10 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default React.memo(LoginForm);
+const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
+  signInWithGoogle: () => dispatch(googleSignInStart()),
+  signInWithEmail: (emailAndPassword) =>
+    dispatch(emailSignInStart(emailAndPassword)),
+});
+
+export default React.memo(connect(null, mapDispatchToProps)(LoginForm));

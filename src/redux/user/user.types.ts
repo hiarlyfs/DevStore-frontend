@@ -1,9 +1,9 @@
 const UserTypes = {
-  SIGN_IN: 'SIGN_IN',
-  SIGN_OUT: 'SIGN_OUT',
+  SET_USER: 'SET_USER',
+  GOOGLE_SIGN_IN_START: 'GOOGLE_SIGN_IN_START',
+  GOOGLE_SIGN_IN_FAILURE: 'GOOGLE_SIGN_IN_FAILURE',
+  EMAIL_SIGN_IN_START: 'EMAIL_SIGN_IN',
+  EMAIL_SIGN_IN_FAILURE: 'EMAIL_SIGN_IN_FAILURE',
 };
-
-// TODO: Colocar processo de login e logout no redux
-// Redux passará a chamar o codigo do firebase
 
 export default UserTypes;
