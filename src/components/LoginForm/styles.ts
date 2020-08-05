@@ -4,6 +4,7 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',
+    width: 380,
   },
 
   formContainer: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles({
   },
 
   field: {
-    width: 280,
+    width: '100%',
     marginTop: 10,
 
     '& .MuiInputLabel-outlined': {

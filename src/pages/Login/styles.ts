@@ -20,8 +20,6 @@ const useStyles = makeStyles({
     position: 'relative',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '50%',
   },
 });
 

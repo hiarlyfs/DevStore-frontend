@@ -12,12 +12,14 @@ import Fade from '@material-ui/core/Fade';
 
 import { Product } from '../../types/Products';
 
-import { addToCard } from '../../redux/cart/cart.actions';
+import { addToCard, showCart, hideCart } from '../../redux/cart/cart.actions';
 
 import useStyles from './styles';
 
 interface IMapDispatchToProps {
-  addTProductoCart: (product: Product) => void;
+  addProductToCart: (product: Product) => void;
+  openCart: () => void;
+  closeCart: () => void;
 }
 
 interface IProps extends IMapDispatchToProps, Product {}
@@ -28,7 +30,9 @@ const ProductComponent: React.FC<IProps> = ({
   price,
   category,
   id,
-  addTProductoCart,
+  addProductToCart,
+  openCart,
+  closeCart,
 }: IProps) => {
   const styles = useStyles();
   const [showDetails, setShowDetails] = useState(false);
@@ -50,7 +54,9 @@ const ProductComponent: React.FC<IProps> = ({
           </Typography>
           <Button
             onClick={() => {
-              addTProductoCart({ image, price, category, id, name });
+              addProductToCart({ image, price, category, id, name });
+              openCart();
+              setTimeout(() => closeCart(), 2000);
             }}
             className={styles.addToCardBt}
             variant="outlined"
@@ -78,7 +84,9 @@ const ProductComponent: React.FC<IProps> = ({
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
-  addTProductoCart: (product: Product) => dispatch(addToCard(product)),
+  addProductToCart: (product: Product) => dispatch(addToCard(product)),
+  openCart: () => dispatch(showCart()),
+  closeCart: () => dispatch(hideCart()),
 });
 
 export default connect(null, mapDispatchToProps)(ProductComponent);
