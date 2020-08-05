@@ -14,6 +14,7 @@ import {
   googleSignInFailure,
   signInSuccess,
   emailSignInFailure,
+  logoutSuccess,
 } from './user.actions';
 
 function* googleLoginStart(): Generator<any, any, any> {
@@ -42,6 +43,7 @@ function* emailLoginStart({
     );
     yield put(signInSuccess(user));
   } catch (error) {
+    console.log(error);
     yield put(emailSignInFailure(error));
   }
 }
@@ -50,6 +52,19 @@ function* signInWithEmail(): Generator<ForkEffect<void>> {
   yield takeLatest(UserTypes.EMAIL_SIGN_IN_START, emailLoginStart);
 }
 
+function* logoutFirebase(): Generator<any, any, any> {
+  try {
+    yield firebaseAuth.signOut();
+    yield put(logoutSuccess());
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* logout(): Generator<ForkEffect<void>> {
+  yield takeLatest(UserTypes.LOGOUT_START, logoutFirebase);
+}
+
 export function* userSagas(): Generator<AllEffect<CallEffect>> {
-  yield all([call(signInWithGoogle), call(signInWithEmail)]);
+  yield all([call(signInWithGoogle), call(signInWithEmail), call(logout)]);
 }

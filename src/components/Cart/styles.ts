@@ -2,7 +2,10 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
   cardContainer: {
+    position: 'relative',
     flexDirection: 'row',
+    boxSizing: 'border-box',
+    marginRight: 20,
   },
 
   cardIcon: {

@@ -25,13 +25,16 @@ const UserReducer = (
         ...state,
         isLoging: true,
         failure: null,
-        user: null,
       };
     case UserTypes.EMAIL_SIGN_IN_FAILURE:
     case UserTypes.GOOGLE_SIGN_IN_FAILURE:
       return {
         ...state,
         failure: action.payload as Error,
+      };
+    case UserTypes.LOGOUT_SUCCESS:
+      return {
+        ...state,
         user: null,
       };
     default:

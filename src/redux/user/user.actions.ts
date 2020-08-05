@@ -28,3 +28,11 @@ export const emailSignInFailure = (failure: Error): IUserAction => ({
   type: UserTypes.EMAIL_SIGN_IN_FAILURE,
   payload: failure,
 });
+
+export const logoutStart = (): IUserAction => ({
+  type: UserTypes.LOGOUT_START,
+});
+
+export const logoutSuccess = (): IUserAction => ({
+  type: UserTypes.LOGOUT_SUCCESS,
+});

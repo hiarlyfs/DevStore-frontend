@@ -4,7 +4,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
 import { Link } from 'react-router-dom';
+
 import Cart from '../Cart';
+import UserAvatar from '../UserAvatar';
 
 import logo from '../../asssets/logo.png';
 
@@ -34,6 +36,7 @@ const Menu: React.FC = () => {
         </Link>
         <Box className={styles.cardContainer}>
           <Cart />
+          <UserAvatar />
         </Box>
       </Box>
     </Box>
