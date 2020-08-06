@@ -21,6 +21,17 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'row',
   },
+
+  spinnerContainer: {
+    position: 'absolute',
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+
+    '& > div': {
+      alignItems: 'center',
+    },
+  },
 });
 
 export default useStyles;

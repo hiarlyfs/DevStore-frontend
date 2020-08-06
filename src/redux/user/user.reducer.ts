@@ -5,7 +5,8 @@ import { IUserState, IUserAction } from './user.interfaces';
 const INITIAL_STATE: IUserState = {
   user: null,
   isLoging: false,
-  failure: null,
+  failureRegister: null,
+  failureLogin: null,
 };
 
 const UserReducer = (
@@ -17,20 +18,31 @@ const UserReducer = (
       return {
         ...state,
         user: action.payload as User,
-        failure: null,
+        failureLogin: null,
+        failureRegister: null,
+        isLoging: false,
       };
     case UserTypes.EMAIL_SIGN_IN_START:
     case UserTypes.GOOGLE_SIGN_IN_START:
+    case UserTypes.REGISTER_START:
       return {
         ...state,
         isLoging: true,
-        failure: null,
       };
     case UserTypes.EMAIL_SIGN_IN_FAILURE:
     case UserTypes.GOOGLE_SIGN_IN_FAILURE:
       return {
         ...state,
-        failure: action.payload as Error,
+        isLoging: false,
+        failureLogin: action.payload as Error,
+        failureRegister: null,
+      };
+    case UserTypes.REGISTER_FAILURE:
+      return {
+        ...state,
+        isLoging: false,
+        failureLogin: null,
+        failureRegister: action.payload as Error,
       };
     case UserTypes.LOGOUT_SUCCESS:
       return {

@@ -8,3 +8,18 @@ export const selectUser = createSelector(
   [selectUserReducer],
   (user) => user.user,
 );
+
+export const selectErrorLogin = createSelector(
+  [selectUserReducer],
+  (user) => user.failureLogin,
+);
+
+export const selectErrorRegister = createSelector(
+  [selectUserReducer],
+  (user) => user.failureRegister,
+);
+
+export const selectIsLogin = createSelector(
+  [selectUserReducer],
+  (user) => user.isLoging,
+);

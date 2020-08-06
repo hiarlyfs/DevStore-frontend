@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useCallback } from 'react';
 
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { FcGoogle } from 'react-icons/fc';
 
@@ -14,8 +16,10 @@ import {
   googleSignInStart,
   emailSignInStart,
 } from '../../redux/user/user.actions';
+import { selectErrorLogin } from '../../redux/user/user.selectors';
 
 import useStyles from './styles';
+import { IReducer } from '../../redux/root-reducer.interface';
 
 interface IMapDispatchToProps {
   signInWithGoogle: () => void;
@@ -25,10 +29,20 @@ interface IMapDispatchToProps {
   }) => void;
 }
 
-const LoginForm: React.FC<IMapDispatchToProps> = ({
+interface IMapStateToProps {
+  loginError: Error | null;
+}
+
+interface IProps extends IMapStateToProps, IMapDispatchToProps {}
+
+// TODO: Callback de redirecionamento quando o login
+// tdo usuario for bem sucedido
+
+const LoginForm: React.FC<IProps> = ({
   signInWithGoogle,
   signInWithEmail,
-}: IMapDispatchToProps) => {
+  loginError,
+}: IProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -53,6 +67,7 @@ const LoginForm: React.FC<IMapDispatchToProps> = ({
       <Typography className={styles.title}>Sign In</Typography>
       <form className={styles.formContainer}>
         <TextField
+          error={!!loginError}
           onChange={onChangeEmail}
           value={email}
           className={styles.field}
@@ -63,6 +78,8 @@ const LoginForm: React.FC<IMapDispatchToProps> = ({
           type="email"
         />
         <TextField
+          error={!!loginError}
+          helperText={loginError?.message}
           onChange={onChangePassword}
           value={password}
           className={styles.field}
@@ -105,4 +122,10 @@ const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
     dispatch(emailSignInStart(emailAndPassword)),
 });
 
-export default React.memo(connect(null, mapDispatchToProps)(LoginForm));
+const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
+  loginError: selectErrorLogin,
+});
+
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(LoginForm),
+);

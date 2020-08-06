@@ -12,10 +12,12 @@ import { firebaseAuth } from '../../firebase/firebaseConfig';
 import UserTypes from './user.types';
 import {
   googleSignInFailure,
-  signInSuccess,
   emailSignInFailure,
   logoutSuccess,
+  registerFailure,
+  signInSuccess,
 } from './user.actions';
+import { IUserLogin, INewUserData } from './user.interfaces';
 
 function* googleLoginStart(): Generator<any, any, any> {
   try {
@@ -34,7 +36,7 @@ function* emailLoginStart({
   payload: { email, password },
 }: {
   type: typeof UserTypes.EMAIL_SIGN_IN_START;
-  payload: { email: string; password: string };
+  payload: IUserLogin;
 }): Generator<any, any, any> {
   try {
     const { user } = yield firebaseAuth.signInWithEmailAndPassword(
@@ -43,13 +45,45 @@ function* emailLoginStart({
     );
     yield put(signInSuccess(user));
   } catch (error) {
-    console.log(error);
     yield put(emailSignInFailure(error));
   }
 }
 
 function* signInWithEmail(): Generator<ForkEffect<void>> {
   yield takeLatest(UserTypes.EMAIL_SIGN_IN_START, emailLoginStart);
+}
+
+function passwordMatch(
+  password: string,
+  confirmPassword: string,
+): Error | void {
+  if (confirmPassword !== password) {
+    throw new Error('Password do not match');
+  }
+}
+
+function* newUserRegister({
+  payload: { email, password, confirmPassword, name, successCb },
+}: {
+  type: typeof UserTypes.REGISTER_START;
+  payload: INewUserData;
+}): Generator<any, any, any> {
+  try {
+    passwordMatch(password, confirmPassword);
+    const { user } = yield firebaseAuth.createUserWithEmailAndPassword(
+      email,
+      password,
+    );
+    yield user.updateProfile({ displayName: name });
+    yield put(signInSuccess(user));
+    if (successCb) successCb();
+  } catch (error) {
+    yield put(registerFailure(error));
+  }
+}
+
+function* registerWithEmail(): Generator<ForkEffect<void>> {
+  yield takeLatest(UserTypes.REGISTER_START, newUserRegister);
 }
 
 function* logoutFirebase(): Generator<any, any, any> {
@@ -66,5 +100,10 @@ function* logout(): Generator<ForkEffect<void>> {
 }
 
 export function* userSagas(): Generator<AllEffect<CallEffect>> {
-  yield all([call(signInWithGoogle), call(signInWithEmail), call(logout)]);
+  yield all([
+    call(signInWithGoogle),
+    call(signInWithEmail),
+    call(logout),
+    call(registerWithEmail),
+  ]);
 }

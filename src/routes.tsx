@@ -1,14 +1,24 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 
 import Menu from './components/Menu';
+import { checkUserSession } from './redux/user/user.actions';
 
 const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Login = lazy(() => import('./pages/Login'));
 
-const Routes: React.FC = () => {
+interface IMapDispatchToProps {
+  checkUser: () => void;
+}
+
+const Routes: React.FC<IMapDispatchToProps> = ({
+  checkUser,
+}: IMapDispatchToProps) => {
+  useEffect(() => checkUser(), [checkUser]);
   return (
     <Suspense fallback={<div>oi</div>}>
       <BrowserRouter>
@@ -22,4 +32,8 @@ const Routes: React.FC = () => {
   );
 };
 
-export default Routes;
+const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
+  checkUser: () => dispatch(checkUserSession()),
+});
+
+export default connect(null, mapDispatchToProps)(Routes);

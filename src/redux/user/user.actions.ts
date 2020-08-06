@@ -36,3 +36,21 @@ export const logoutStart = (): IUserAction => ({
 export const logoutSuccess = (): IUserAction => ({
   type: UserTypes.LOGOUT_SUCCESS,
 });
+
+export const registerStart = (newUserData: {
+  email: string;
+  password: string;
+  name: string;
+}): IUserAction => ({
+  type: UserTypes.REGISTER_START,
+  payload: newUserData,
+});
+
+export const registerFailure = (failure: Error): IUserAction => ({
+  type: UserTypes.REGISTER_FAILURE,
+  payload: failure,
+});
+
+export const checkUserSession = (): IUserAction => ({
+  type: UserTypes.CHECK_USER_SESSION,
+});

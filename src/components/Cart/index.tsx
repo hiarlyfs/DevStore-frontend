@@ -75,7 +75,7 @@ const Card: React.FC<IProps> = ({
           <ArrowDropUpIcon className={styles.arrowUp} />
           {productsCart.map((product) => (
             // eslint-disable-next-line react/jsx-props-no-spreading
-            <ProductCart {...product} />
+            <ProductCart key={product.id} {...product} />
           ))}
           {productsCart.length > 0 ? (
             <Box>
