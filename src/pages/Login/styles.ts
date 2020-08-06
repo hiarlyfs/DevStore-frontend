@@ -27,10 +27,6 @@ const useStyles = makeStyles({
     display: 'flex',
     height: '100%',
     width: '100%',
-
-    '& > div': {
-      alignItems: 'center',
-    },
   },
 });
 

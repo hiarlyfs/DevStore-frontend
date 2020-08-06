@@ -6,7 +6,9 @@ import {
   AllEffect,
   CallEffect,
   ForkEffect,
+  PutEffect,
 } from 'redux-saga/effects';
+import { User } from 'firebase';
 import { googleProvider } from '../../firebase/firebaseUtils';
 import { firebaseAuth } from '../../firebase/firebaseConfig';
 import UserTypes from './user.types';
@@ -17,12 +19,29 @@ import {
   registerFailure,
   signInSuccess,
 } from './user.actions';
-import { IUserLogin, INewUserData } from './user.interfaces';
+import {
+  IUserLoginCredential,
+  INewUserData,
+  IUserAction,
+} from './user.interfaces';
 
-function* googleLoginStart(): Generator<any, any, any> {
+function* dispacthSignInSuccess(
+  user: User,
+  cb?: () => void,
+): Generator<PutEffect<IUserAction>> {
+  yield put(signInSuccess(user));
+  if (cb) cb();
+}
+
+function* googleLoginStart({
+  successCb,
+}: {
+  type: typeof UserTypes.GOOGLE_SIGN_IN_START;
+  successCb?: () => void;
+}): Generator<any, any, any> {
   try {
     const { user } = yield firebaseAuth.signInWithPopup(googleProvider);
-    yield put(signInSuccess(user));
+    yield dispacthSignInSuccess(user, successCb);
   } catch (error) {
     yield put(googleSignInFailure(error));
   }
@@ -34,16 +53,18 @@ function* signInWithGoogle(): Generator<ForkEffect<void>> {
 
 function* emailLoginStart({
   payload: { email, password },
+  successCb,
 }: {
   type: typeof UserTypes.EMAIL_SIGN_IN_START;
-  payload: IUserLogin;
+  payload: IUserLoginCredential;
+  successCb?: () => void;
 }): Generator<any, any, any> {
   try {
     const { user } = yield firebaseAuth.signInWithEmailAndPassword(
       email,
       password,
     );
-    yield put(signInSuccess(user));
+    yield dispacthSignInSuccess(user, successCb);
   } catch (error) {
     yield put(emailSignInFailure(error));
   }
@@ -63,10 +84,12 @@ function passwordMatch(
 }
 
 function* newUserRegister({
-  payload: { email, password, confirmPassword, name, successCb },
+  payload: { email, password, confirmPassword, name },
+  successCb,
 }: {
   type: typeof UserTypes.REGISTER_START;
   payload: INewUserData;
+  successCb?: () => void;
 }): Generator<any, any, any> {
   try {
     passwordMatch(password, confirmPassword);
@@ -75,8 +98,7 @@ function* newUserRegister({
       password,
     );
     yield user.updateProfile({ displayName: name });
-    yield put(signInSuccess(user));
-    if (successCb) successCb();
+    yield dispacthSignInSuccess(user, successCb);
   } catch (error) {
     yield put(registerFailure(error));
   }
@@ -103,7 +125,7 @@ export function* userSagas(): Generator<AllEffect<CallEffect>> {
   yield all([
     call(signInWithGoogle),
     call(signInWithEmail),
-    call(logout),
     call(registerWithEmail),
+    call(logout),
   ]);
 }

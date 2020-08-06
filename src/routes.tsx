@@ -10,6 +10,7 @@ const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Login = lazy(() => import('./pages/Login'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 
 interface IMapDispatchToProps {
   checkUser: () => void;
@@ -27,6 +28,7 @@ const Routes: React.FC<IMapDispatchToProps> = ({
         <Route path="/shop" exact component={Shop} />
         <Route path="/cart" exact component={Cart} />
         <Route path="/login" exact component={Login} />
+        <Route path="/checkout" exact component={Checkout} />
       </BrowserRouter>
     </Suspense>
   );

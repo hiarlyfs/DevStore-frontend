@@ -12,15 +12,15 @@ export interface INewUserData {
   password: string;
   confirmPassword: string;
   name: string;
-  successCb?: () => void;
 }
 
-export interface IUserLogin {
+export interface IUserLoginCredential {
   email: string;
   password: string;
 }
 
 export interface IUserAction {
   type: string;
-  payload?: User | INewUserData | IUserLogin | Error;
+  payload?: User | INewUserData | IUserLoginCredential | Error;
+  successCb?: () => void;
 }

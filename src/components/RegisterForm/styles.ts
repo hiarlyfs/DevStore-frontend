@@ -5,6 +5,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     marginLeft: 50,
+    maxWidth: 380,
   },
 
   title: {

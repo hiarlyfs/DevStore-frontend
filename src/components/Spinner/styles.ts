@@ -6,6 +6,7 @@ const useStyles = makeStyles({
     width: '100vw',
     height: '100%',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 
   spinner: {

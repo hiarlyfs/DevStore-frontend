@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { useLocation, useHistory } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import Box from '@material-ui/core/Box';
@@ -14,11 +15,12 @@ import { INewUserData } from '../../redux/user/user.interfaces';
 import { registerStart } from '../../redux/user/user.actions';
 import { selectErrorRegister } from '../../redux/user/user.selectors';
 
-import useStyles from './styles';
 import { IReducer } from '../../redux/root-reducer.interface';
 
+import useStyles from './styles';
+
 interface IMapDispatchToProps {
-  register: (userData: INewUserData) => void;
+  register: (userData: INewUserData, successCb?: () => void) => void;
 }
 
 interface IMapStateToProps {
@@ -27,13 +29,22 @@ interface IMapStateToProps {
 
 interface IProps extends IMapDispatchToProps, IMapStateToProps {}
 
-// TODO: Callback de redirecionamento quando o registro de um novo
-// usuario for bem sucedido
+interface IStatePage {
+  afterLoginRedirectTo?: string;
+}
 
 const RegisterForm: React.FC<IProps> = ({
   register,
   registerError,
 }: IProps) => {
+  const history = useHistory();
+  const { state } = useLocation<IStatePage>();
+
+  const redirectAfterRegisterSuccess = (): void => {
+    if (state?.afterLoginRedirectTo) history.push(state.afterLoginRedirectTo);
+    else history.push('/shop');
+  };
+
   const [data, setData] = useState({
     firstname: '',
     lastname: '',
@@ -48,7 +59,6 @@ const RegisterForm: React.FC<IProps> = ({
     },
     [data],
   );
-
   const styles = useStyles();
 
   return (
@@ -58,7 +68,7 @@ const RegisterForm: React.FC<IProps> = ({
         onSubmit={(e) => {
           e.preventDefault();
           const name = `${data.firstname} ${data.lastname}`;
-          register({ ...data, name });
+          register({ ...data, name }, redirectAfterRegisterSuccess);
         }}
         method="post"
         className={styles.formContainer}
@@ -132,7 +142,8 @@ const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
-  register: (userData) => dispatch(registerStart(userData)),
+  register: (userData, successCb) =>
+    dispatch(registerStart(userData, successCb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -20,29 +21,33 @@ import { selectErrorLogin } from '../../redux/user/user.selectors';
 
 import useStyles from './styles';
 import { IReducer } from '../../redux/root-reducer.interface';
+import { IUserLoginCredential } from '../../redux/user/user.interfaces';
 
 interface IMapDispatchToProps {
-  signInWithGoogle: () => void;
-  signInWithEmail: (emailAndPassword: {
-    email: string;
-    password: string;
-  }) => void;
+  signInWithGoogle: (successCb?: () => void) => void;
+  signInWithEmail: (
+    emailAndPassword: IUserLoginCredential,
+    successCb?: () => void,
+  ) => void;
 }
 
 interface IMapStateToProps {
   loginError: Error | null;
 }
 
-interface IProps extends IMapStateToProps, IMapDispatchToProps {}
+interface IStatePage {
+  afterLoginRedirectTo?: string;
+}
 
-// TODO: Callback de redirecionamento quando o login
-// tdo usuario for bem sucedido
+interface IProps extends IMapStateToProps, IMapDispatchToProps {}
 
 const LoginForm: React.FC<IProps> = ({
   signInWithGoogle,
   signInWithEmail,
   loginError,
 }: IProps) => {
+  const history = useHistory();
+  const { state } = useLocation<IStatePage>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -59,6 +64,11 @@ const LoginForm: React.FC<IProps> = ({
     },
     [],
   );
+
+  const redirectAfterLoginSuccess = (): void => {
+    if (state?.afterLoginRedirectTo) history.push(state.afterLoginRedirectTo);
+    else history.push('/shop');
+  };
 
   const styles = useStyles();
 
@@ -93,7 +103,7 @@ const LoginForm: React.FC<IProps> = ({
           onClick={(event) => {
             if (email && password) {
               event.preventDefault();
-              signInWithEmail({ email, password });
+              signInWithEmail({ email, password }, redirectAfterLoginSuccess);
             }
           }}
           className={styles.loginButton}
@@ -104,7 +114,7 @@ const LoginForm: React.FC<IProps> = ({
         </Button>
       </form>
       <Button
-        onClick={() => signInWithGoogle()}
+        onClick={() => signInWithGoogle(redirectAfterLoginSuccess)}
         className={styles.loginGoogle}
         variant="outlined"
         type="button"
@@ -117,9 +127,9 @@ const LoginForm: React.FC<IProps> = ({
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
-  signInWithGoogle: () => dispatch(googleSignInStart()),
-  signInWithEmail: (emailAndPassword) =>
-    dispatch(emailSignInStart(emailAndPassword)),
+  signInWithGoogle: (successCb) => dispatch(googleSignInStart(successCb)),
+  signInWithEmail: (emailAndPassword, successCb) =>
+    dispatch(emailSignInStart(emailAndPassword, successCb)),
 });
 
 const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
