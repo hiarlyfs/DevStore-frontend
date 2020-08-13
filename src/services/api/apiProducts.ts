@@ -6,7 +6,7 @@ interface GetProducts {
 }
 
 const getAllProductsFrom = async (
-  place: 'all' | 'local' | 'online',
+  place: 'all' | 'default' | 'online',
 ): Promise<Product[]> => {
   try {
     const request = await api.get<GetProducts>(`/products?place=${place}`);
@@ -17,7 +17,7 @@ const getAllProductsFrom = async (
 };
 
 const getAllProductsWithCategory = async (
-  place: 'all' | 'local' | 'online',
+  place: 'all' | 'default' | 'online',
   category: string,
 ): Promise<Product[]> => {
   try {
@@ -31,7 +31,7 @@ const getAllProductsWithCategory = async (
 };
 
 export const getProducts = async (
-  place: 'all' | 'local' | 'online',
+  place: 'all' | 'default' | 'online',
   category?: string,
 ): Promise<Product[]> => {
   if (category) return getAllProductsWithCategory(place, category);

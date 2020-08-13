@@ -1,34 +1,22 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
+
 import CartItem from '../../components/CartItem';
+import WithCart from '../../components/WithCart';
 
 import useStyles from './styles';
-
-import {
-  selectProductsCart,
-  selectTotalCart,
-} from '../../redux/cart/cart.selectors';
 import { IProductCart } from '../../redux/cart/cart.interfaces';
-import { IReducer } from '../../redux/root-reducer.interface';
 
-interface IMapStateToProps {
-  products: IProductCart[];
-  total: number;
+interface IProps {
+  productsCart: IProductCart[];
+  totalCart: number;
 }
 
-interface IProps extends IMapStateToProps {
-  products: IProductCart[];
-  total: number;
-}
-
-const Cart: React.FC<IProps> = ({ products, total }: IProps) => {
+const Cart: React.FC<IProps> = ({ productsCart, totalCart }: IProps) => {
   const styles = useStyles();
 
   return (
@@ -44,7 +32,7 @@ const Cart: React.FC<IProps> = ({ products, total }: IProps) => {
           <Typography className={styles.productTotalPrice}>Total</Typography>
         </Box>
       </Box>
-      {products.map((product) => (
+      {productsCart.map((product) => (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <CartItem key={product.id} {...product} />
       ))}
@@ -66,11 +54,11 @@ const Cart: React.FC<IProps> = ({ products, total }: IProps) => {
           <Typography className={styles.cartTotalTitle}>Cart Totals</Typography>
           <Typography className={styles.totals}>
             Subtotal:{' '}
-            <span className={styles.totalPrice}>R$ {total.toFixed(2)}</span>
+            <span className={styles.totalPrice}>R$ {totalCart.toFixed(2)}</span>
           </Typography>
           <Typography className={styles.totals}>
             Total:{' '}
-            <span className={styles.totalPrice}>R$ {total.toFixed(2)}</span>
+            <span className={styles.totalPrice}>R$ {totalCart.toFixed(2)}</span>
           </Typography>
         </Box>
       </Box>
@@ -78,9 +66,4 @@ const Cart: React.FC<IProps> = ({ products, total }: IProps) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
-  products: selectProductsCart,
-  total: selectTotalCart,
-});
-
-export default connect(mapStateToProps)(Cart);
+export default WithCart(Cart);

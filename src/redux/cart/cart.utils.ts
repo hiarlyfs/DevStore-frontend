@@ -1,11 +1,6 @@
 import { IProductCart } from './cart.interfaces';
 import { Product } from '../../types/Products';
 
-// TODO: Função para adicionar 1 na quantidade dos produtos
-/* TODO: Função para diminuir 1 na quantidade dos produtos 
-  (Deletar caso so tenha um produto e eu queria diminuir
-    uma unidade)
-*/
 function findProductById(
   products: IProductCart[],
   idNewProd: number,

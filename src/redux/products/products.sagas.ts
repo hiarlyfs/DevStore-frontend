@@ -23,7 +23,7 @@ function* fetchProductsAsync({
 }): Generator<any, any, any> {
   try {
     const data: Product[] = yield Promise.resolve(
-      getProducts('local', category),
+      getProducts('default', category),
     );
     yield put(fetchProductsSuccess(data));
   } catch (error) {

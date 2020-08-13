@@ -14,15 +14,14 @@ import Typography from '@material-ui/core/Typography';
 
 import { Button } from '@material-ui/core';
 import ProductCart from '../ProductCart';
+import WithCart from '../WithCart';
 
 import { IReducer } from '../../redux/root-reducer.interface';
 
 import { IProductCart } from '../../redux/cart/cart.interfaces';
 import {
-  selectProductsCart,
   selectCartHidden,
   selectQtdItemsCart,
-  selectTotalCart,
 } from '../../redux/cart/cart.selectors';
 import { hideCart, showCart } from '../../redux/cart/cart.actions';
 
@@ -34,10 +33,8 @@ interface IMapDispatchToProps {
 }
 
 interface IMapStateToProps {
-  productsCart: IProductCart[];
   cartHidden: boolean;
   numberProducts: number;
-  totalCart: number;
 }
 
 interface IProps {
@@ -49,13 +46,13 @@ interface IProps {
   totalCart: number;
 }
 
-const Card: React.FC<IProps> = ({
+const Cart: React.FC<IProps> = ({
   productsCart = [],
   cartHidden,
   closeCart,
   openCart,
   numberProducts,
-  totalCart,
+  totalCart = 0,
 }: IProps) => {
   const styles = useStyles();
 
@@ -112,10 +109,8 @@ const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
 });
 
 const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
-  productsCart: selectProductsCart,
   cartHidden: selectCartHidden,
   numberProducts: selectQtdItemsCart,
-  totalCart: selectTotalCart,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Card);
+export default WithCart(connect(mapStateToProps, mapDispatchToProps)(Cart));

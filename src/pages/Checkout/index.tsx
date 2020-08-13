@@ -2,11 +2,15 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Box from '@material-ui/core/Box';
+
 import { User } from 'firebase';
 
 import { createStructuredSelector } from 'reselect';
 import { IReducer } from '../../redux/root-reducer.interface';
 import { selectUser } from '../../redux/user/user.selectors';
+
+import OrderDescription from '../../components/OrderDescription';
 
 import useStyles from './styles';
 
@@ -27,7 +31,12 @@ const Checkout: React.FC<IMapStateToProps> = ({ user }: IMapStateToProps) => {
 
   const styles = useStyles();
 
-  return <div>oi</div>;
+  return (
+    <Box className={styles.container}>
+      <OrderDescription />
+      <div>ola</div>
+    </Box>
+  );
 };
 
 const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
