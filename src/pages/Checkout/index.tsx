@@ -1,33 +1,28 @@
 import React, { useEffect } from 'react';
+import { User } from 'firebase';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import Box from '@material-ui/core/Box';
 
-import { User } from 'firebase';
-
-import { createStructuredSelector } from 'reselect';
-import { IReducer } from '../../redux/root-reducer.interface';
-import { selectUser } from '../../redux/user/user.selectors';
-
+import WithUser from '../../components/WithUser';
 import OrderDescription from '../../components/OrderDescription';
 
 import useStyles from './styles';
 
-interface IMapStateToProps {
-  user: User | null;
+interface IProps {
+  currentUser: User;
 }
 
-const Checkout: React.FC<IMapStateToProps> = ({ user }: IMapStateToProps) => {
+const Checkout: React.FC<IProps> = ({ currentUser }: IProps) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (!user)
+    if (!currentUser)
       history.push({
         pathname: '/login',
         state: { afterLoginRedirectTo: '/checkout' },
       });
-  }, [user, history]);
+  }, [currentUser, history]);
 
   const styles = useStyles();
 
@@ -39,8 +34,4 @@ const Checkout: React.FC<IMapStateToProps> = ({ user }: IMapStateToProps) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
-  user: selectUser,
-});
-
-export default connect(mapStateToProps)(Checkout);
+export default WithUser(Checkout);

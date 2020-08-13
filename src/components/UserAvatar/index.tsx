@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { createStructuredSelector } from 'reselect';
-
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { User } from 'firebase';
@@ -18,20 +16,16 @@ import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import { logoutStart } from '../../redux/user/user.actions';
-import { selectUser } from '../../redux/user/user.selectors';
+
+import WithUser from '../WithUser';
 
 import useStyles from './styles';
-import { IReducer } from '../../redux/root-reducer.interface';
-
-interface IMapStateToProps {
-  currentUser: User | null;
-}
 
 interface IMapDispatchToProps {
   logout: () => void;
 }
 
-interface IProps extends IMapStateToProps, IMapDispatchToProps {
+interface IProps extends IMapDispatchToProps {
   currentUser: User | null;
   logout: () => void;
 }
@@ -73,12 +67,8 @@ const UserAvatar: React.FC<IProps> = ({ currentUser, logout }: IProps) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
-  currentUser: selectUser,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
   logout: () => dispatch(logoutStart()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserAvatar);
+export default WithUser(connect(null, mapDispatchToProps)(UserAvatar));
