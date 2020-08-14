@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 
 import WithUser from '../../components/WithUser';
 import OrderDescription from '../../components/OrderDescription';
+import CardPaymentForm from '../../components/CardPaymentForm';
 
 import useStyles from './styles';
 
@@ -29,7 +30,7 @@ const Checkout: React.FC<IProps> = ({ currentUser }: IProps) => {
   return (
     <Box className={styles.container}>
       <OrderDescription />
-      <div>ola</div>
+      <CardPaymentForm />
     </Box>
   );
 };
