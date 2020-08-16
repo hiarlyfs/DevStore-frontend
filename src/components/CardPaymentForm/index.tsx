@@ -5,69 +5,18 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 
 import Box from '@material-ui/core/Box';
-import MaskedInput from 'react-text-mask';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
 import WithPaymentForm from '../WithPaymentForm';
-import PaymetInput from '../PaymentInput';
+import PaymentInput from '../PaymentInput';
+
+import { NumberCardMask, ExpiryMask } from './inputMasks';
 
 import useStyles from './styles';
 import { IProductCart } from '../../redux/cart/cart.interfaces';
-
-const NumberCardMask: React.FC<InputBaseComponentProps> = (
-  props: InputBaseComponentProps,
-) => {
-  const { inputRef, ...other } = props;
-
-  return (
-    <MaskedInput
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...other}
-      ref={inputRef}
-      mask={[
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-        ' ',
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-        ' ',
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-        ' ',
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-      ]}
-      placeholderChar={'\u2000'}
-    />
-  );
-};
-
-const ExpiryMask: React.FC<InputBaseComponentProps> = (
-  props: InputBaseComponentProps,
-) => {
-  const { inputRef, ...other } = props;
-
-  return (
-    <MaskedInput
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...other}
-      ref={inputRef}
-      mask={[/\d/, /\d/, '/', /\d/, /\d/]}
-      placeholderChar={'\u2000'}
-    />
-  );
-};
 
 interface IProps {
   productsCart: IProductCart[];
@@ -113,14 +62,14 @@ const CardPaymentForm: React.FC<IProps> = ({
         number={4901490149014901}
       />
       <form className={styles.formContainer}>
-        <PaymetInput
+        <PaymentInput
           title="Card Number"
           required
           name="number"
           placeholder="ex: 0000 0000 0000 0000"
           inputComponent={NumberCardMask}
         />
-        <PaymetInput
+        <PaymentInput
           title="Card Holder Name"
           required
           name="name"
@@ -132,7 +81,7 @@ const CardPaymentForm: React.FC<IProps> = ({
           justifyContent="space-between"
           flexDirection="row"
         >
-          <PaymetInput
+          <PaymentInput
             title="Card Expiry"
             required
             name="expiry"
@@ -140,7 +89,7 @@ const CardPaymentForm: React.FC<IProps> = ({
             inputWidth={160}
             inputComponent={ExpiryMask}
           />
-          <PaymetInput
+          <PaymentInput
             title="CVV"
             required
             name="cvv"
@@ -148,7 +97,7 @@ const CardPaymentForm: React.FC<IProps> = ({
             inputWidth={100}
           />
         </Box>
-        <PaymetInput
+        <PaymentInput
           title="Installments"
           required={false}
           name="installments"

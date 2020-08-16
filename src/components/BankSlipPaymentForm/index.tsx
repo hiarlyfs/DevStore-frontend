@@ -1,83 +1,79 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useState, useCallback } from 'react';
 
 import Box from '@material-ui/core/Box';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { InputBaseComponentProps } from '@material-ui/core/InputBase';
 
 import PaymentInput from '../PaymentInput';
+import SelectCountry from '../SelectCountry';
+
+import { CPFInputMask } from './inputMasks';
 
 import useStyles from './styles';
+import WithPaymentForm from '../WithPaymentForm';
+import { IWithPaymentFormProps } from '../interfaces/WithPaymentForm.interfaces';
 
-interface ICountry {
-  name: string;
-  alpha2Code: string;
-  flag: string;
-}
+type IProps = IWithPaymentFormProps;
 
-interface ISelectCountryProps extends InputBaseComponentProps {
-  countries: ICountry[];
-}
-
-const BankSlipPaymentForm: React.FC = () => {
+const BankSlipPaymentForm: React.FC<IProps> = ({ currentUser }: IProps) => {
   const styles = useStyles();
-  const [countries, setCountries] = useState<ICountry[]>([]);
 
-  useEffect(() => {
-    fetch('https://restcountries.eu/rest/v2/all')
-      .then((res) => res.json())
-      .then((data) => setCountries(data));
-  }, []);
+  const [email, setEmail] = useState(currentUser?.email || '');
+  const [name, setName] = useState(currentUser?.displayName || '');
+  const [cpf, setCPF] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+
+  const onChangeEmail = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) =>
+      setEmail(event.target.value),
+    [],
+  );
+
+  const onChangeName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value),
+    [],
+  );
+
+  const onChangeCPF = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => setCPF(event.target.value),
+    [],
+  );
+
+  const onChangeCountry = useCallback(
+    (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) =>
+      setSelectedCountry(event?.target.value as string),
+    [],
+  );
 
   return (
     <Box className={styles.container}>
       <form className={styles.formContainer}>
-        <PaymentInput title="Name" required name="name" placeholder="Name..." />
         <PaymentInput
+          value={name}
+          onChange={onChangeName}
+          title="Name"
+          required
+          name="name"
+          placeholder="Name..."
+        />
+        <PaymentInput
+          value={email}
+          onChange={onChangeEmail}
           title="E-mail"
           required
           name="email"
           placeholder="E-mail..."
         />
-        <PaymentInput title="CPF" required name="cpf" placeholder="CPF" />
-        <Typography className={styles.selectCountry}>Your Country</Typography>
-        <Select
-          style={{
-            height: 40,
-          }}
-          SelectDisplayProps={{
-            style: {
-              display: 'flex',
-            },
-          }}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          fullWidth
+        <PaymentInput
+          value={cpf}
+          onChange={onChangeCPF}
+          title="CPF"
           required
-          variant="outlined"
-        >
-          {countries.map((country) => (
-            <MenuItem
-              style={{ display: 'flex', flexDirection: 'row' }}
-              value={country.alpha2Code}
-            >
-              <img
-                style={{
-                  maxWidth: 30,
-                  maxHeight: 30,
-                  width: 'auto',
-                  height: 'auto',
-                  marginRight: 5,
-                }}
-                src={country.flag}
-                alt="Country Flag"
-              />
-              <Typography>{country.name}</Typography>
-            </MenuItem>
-          ))}
-        </Select>
+          name="cpf"
+          inputComponent={CPFInputMask}
+          placeholder="CPF"
+        />
+        <SelectCountry value={selectedCountry} onChange={onChangeCountry} />
         <Button type="submit" className={styles.orderBt} variant="outlined">
           Order Now
         </Button>
@@ -86,4 +82,4 @@ const BankSlipPaymentForm: React.FC = () => {
   );
 };
 
-export default BankSlipPaymentForm;
+export default WithPaymentForm(BankSlipPaymentForm);

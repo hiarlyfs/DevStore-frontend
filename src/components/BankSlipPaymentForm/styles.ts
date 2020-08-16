@@ -15,10 +15,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
 
-  selectCountry: {
-    marginTop: 10,
-  },
-
   selectCountryOptionContainer: {
     display: 'flex',
     flexDirection: 'row',

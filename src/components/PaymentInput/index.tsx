@@ -14,6 +14,8 @@ interface IProps {
   placeholder: string;
   inputComponent?: React.ComponentType<InputBaseComponentProps>;
   inputWidth?: number;
+  value?: any;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const PaymentInput: React.FC<IProps> = ({
@@ -23,6 +25,8 @@ const PaymentInput: React.FC<IProps> = ({
   placeholder,
   inputComponent,
   inputWidth,
+  value,
+  onChange,
 }: IProps) => {
   const styles = useStyles({ inputWidth });
 
@@ -35,9 +39,11 @@ const PaymentInput: React.FC<IProps> = ({
         placeholder={placeholder}
         className={styles.inputField}
         inputComponent={inputComponent}
+        value={value}
+        onChange={onChange}
       />
     </Box>
   );
 };
 
-export default PaymentInput;
+export default React.memo(PaymentInput);
