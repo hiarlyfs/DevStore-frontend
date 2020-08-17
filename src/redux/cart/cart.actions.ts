@@ -29,3 +29,7 @@ export const deleteProduct = (idProduct: number): ICartAction => ({
   type: CartTypes.DELETE_ITEM,
   payload: idProduct,
 });
+
+export const clearCart = (): ICartAction => ({
+  type: CartTypes.CLEAR_CART,
+});

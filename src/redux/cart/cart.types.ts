@@ -5,6 +5,7 @@ const CartTypes = {
   DELETE_ITEM: 'DELETE_ITEM',
   HIDE_CART: 'HIDE_CART',
   SHOW_CART: 'SHOW_CART',
+  CLEAR_CART: 'CLEAR_CART',
 };
 
 export default CartTypes;

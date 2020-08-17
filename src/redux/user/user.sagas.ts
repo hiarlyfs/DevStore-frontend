@@ -9,8 +9,8 @@ import {
   PutEffect,
 } from 'redux-saga/effects';
 import { User } from 'firebase';
-import { googleProvider } from '../../firebase/firebaseUtils';
-import { firebaseAuth } from '../../firebase/firebaseConfig';
+import { googleProvider } from '../../services/firebase/firebaseUtils';
+import { firebaseAuth } from '../../services/firebase/firebaseConfig';
 import UserTypes from './user.types';
 import {
   googleSignInFailure,

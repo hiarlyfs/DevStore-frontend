@@ -36,7 +36,7 @@ const SelectInstallments: React.FC<IProps> = ({
       >
         {Array.from(Array(qtdInstallments).keys()).map((i) => (
           <MenuItem value={i + 1}>
-            {i + 1} x de R$ {(totalCart / (100 * (i + 1))).toFixed(2)}
+            {i + 1} x de R$ {(totalCart / (i + 1)).toFixed(2)}
           </MenuItem>
         ))}
       </Select>

@@ -10,6 +10,12 @@ const useStyles = makeStyles({
     width: 400,
   },
 
+  importantInformations: {
+    color: 'red',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+
   formContainer: {
     display: 'flex',
     flexDirection: 'column',

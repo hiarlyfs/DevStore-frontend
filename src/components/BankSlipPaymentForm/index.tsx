@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import PaymentInput from '../PaymentInput';
 import SelectCountry from '../SelectCountry';
@@ -11,11 +12,18 @@ import { CPFInputMask } from './inputMasks';
 
 import useStyles from './styles';
 import WithPaymentForm from '../WithPaymentForm';
-import { IWithPaymentFormProps } from '../interfaces/WithPaymentForm.interfaces';
+import { IWithPaymentProvider } from '../interfaces/WithPaymentForm.interfaces';
 
-type IProps = IWithPaymentFormProps;
+import { payWithBankSlip } from '../../services/api/apiCheckout';
 
-const BankSlipPaymentForm: React.FC<IProps> = ({ currentUser }: IProps) => {
+type IProps = IWithPaymentProvider;
+
+const BankSlipPaymentForm: React.FC<IProps> = ({
+  currentUser,
+  totalCart,
+  productsCart,
+  clearCart,
+}: IProps) => {
   const styles = useStyles();
 
   const [email, setEmail] = useState(currentUser?.email || '');
@@ -45,9 +53,35 @@ const BankSlipPaymentForm: React.FC<IProps> = ({ currentUser }: IProps) => {
     [],
   );
 
+  const onSubmitForm = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    try {
+      const data = {
+        clientId: currentUser.uid,
+        amount: totalCart,
+        customer: {
+          name,
+          country: selectedCountry.toLowerCase(),
+          cpf,
+          email,
+        },
+        items: productsCart,
+      };
+      payWithBankSlip(data).then(() => {
+        clearCart();
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Box className={styles.container}>
-      <form className={styles.formContainer}>
+      <Typography className={styles.importantInformations}>
+        IMPORTANT: CPF is a brazilian document required by the Pagarme Api. Do
+        not put a real CPF number here. You can type any number of 11 digits.
+      </Typography>
+      <form onSubmit={onSubmitForm} className={styles.formContainer}>
         <PaymentInput
           value={name}
           onChange={onChangeName}

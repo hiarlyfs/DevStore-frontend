@@ -5,7 +5,29 @@ const useStyles = makeStyles({
     position: 'absolute',
     display: 'flex',
     flexDirection: 'row',
-    marginTop: 300,
+    marginTop: 280,
+    width: '100vw',
+    justifyContent: 'center',
+  },
+
+  paymentContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginRight: 20,
+    alignItems: 'center',
+  },
+
+  paymentTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+
+  paymentMethod: {
+    boxSizing: 'border-box',
+    fontSize: 14,
+    fontWeight: 'bold',
+    backgroundColor: '#d9d9d9',
+    marginLeft: 10,
   },
 });
 

@@ -45,6 +45,12 @@ export const CartReducer = (
         products: removeUnitProduct(state.products, action.payload as number),
       };
     }
+    case CartTypes.CLEAR_CART: {
+      return {
+        ...state,
+        products: [],
+      };
+    }
     case CartTypes.DELETE_ITEM: {
       return {
         ...state,

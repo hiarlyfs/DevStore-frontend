@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 
-import { User } from 'firebase';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import WithPaymentForm from '../WithPaymentForm';
 import PaymentInput from '../PaymentInput';
@@ -14,18 +14,17 @@ import SelectInstallments from '../SelectInstallments';
 import { NumberCardMask, ExpiryMask } from './inputMasks';
 
 import useStyles from './styles';
-import { IProductCart } from '../../redux/cart/cart.interfaces';
 
-interface IProps {
-  productsCart: IProductCart[];
-  totalCart: number;
-  user: User;
-}
+import { payWithCard } from '../../services/api/apiCheckout';
+import { IWithPaymentProvider } from '../interfaces/WithPaymentForm.interfaces';
+
+type IProps = IWithPaymentProvider;
 
 const CardPaymentForm: React.FC<IProps> = ({
   productsCart,
-  user,
   totalCart,
+  currentUser,
+  clearCart,
 }: IProps) => {
   const styles = useStyles();
 
@@ -71,6 +70,23 @@ const CardPaymentForm: React.FC<IProps> = ({
     [],
   );
 
+  const onSubmitForm = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const data = {
+      clientId: currentUser.uid,
+      amount: totalCart,
+      cardNumber: cardNumber.split(' ').join(''),
+      cardHolderName: holderName,
+      cardExpirationDate: cardExpiry.replace('/', ''),
+      cardCvv: cvc,
+      installments,
+      items: productsCart,
+    };
+    payWithCard(data).then(() => {
+      clearCart();
+    });
+  };
+
   const onChangeInstallments = useCallback(
     (
       event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
@@ -82,6 +98,27 @@ const CardPaymentForm: React.FC<IProps> = ({
 
   return (
     <Box className={styles.container}>
+      <Box marginBottom="20px" display="flex" flexDirection="column">
+        <Typography className={styles.importantInformations}>
+          IMPORTANT!!
+        </Typography>
+        <Typography className={styles.importantInformations}>
+          Do not put a real credit card number here. You can look for some fake
+          credit card numbers{' '}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.freeformatter.com/credit-card-number-generator-validator.html"
+          >
+            here
+          </a>{' '}
+          or you can create your own card number.
+        </Typography>
+        <Typography className={styles.importantInformations}>
+          In expiry you can put any date after the current date. In Cvc you can
+          put any number of 3 digits.
+        </Typography>
+      </Box>
       <Cards
         cvc={cvc}
         expiry={cardExpiry}
@@ -89,7 +126,7 @@ const CardPaymentForm: React.FC<IProps> = ({
         name={holderName}
         number={cardNumber}
       />
-      <form className={styles.formContainer}>
+      <form onSubmit={onSubmitForm} className={styles.formContainer}>
         <PaymentInput
           value={cardNumber}
           onChange={onChangeCardNumber}
