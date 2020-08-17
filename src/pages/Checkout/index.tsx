@@ -31,8 +31,7 @@ const Checkout: React.FC<IProps> = ({ currentUser }: IProps) => {
   return (
     <Box className={styles.container}>
       <OrderDescription />
-      {/* <CardPaymentForm /> */}
-      <BankSlipPaymentForm />
+      <CardPaymentForm />
     </Box>
   );
 };

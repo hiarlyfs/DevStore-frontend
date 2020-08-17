@@ -1,17 +1,15 @@
-import React from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 
 import { User } from 'firebase';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 
 import Box from '@material-ui/core/Box';
-import { InputBaseComponentProps } from '@material-ui/core/InputBase';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
 import WithPaymentForm from '../WithPaymentForm';
 import PaymentInput from '../PaymentInput';
+import SelectInstallments from '../SelectInstallments';
 
 import { NumberCardMask, ExpiryMask } from './inputMasks';
 
@@ -31,38 +29,70 @@ const CardPaymentForm: React.FC<IProps> = ({
 }: IProps) => {
   const styles = useStyles();
 
-  const InstallmentsComponent: React.FC<InputBaseComponentProps> = (
-    props: InputBaseComponentProps,
-  ) => {
-    return (
-      <Select
-        style={{ height: 40 }}
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        fullWidth
-        required
-        variant="outlined"
-      >
-        {Array.from(Array(5).keys()).map((i) => (
-          <MenuItem value={i + 1}>
-            {i + 1} x de R$ {(totalCart / (100 * (i + 1))).toFixed(2)}
-          </MenuItem>
-        ))}
-      </Select>
-    );
-  };
+  const [cardNumber, setCardNumber] = useState('');
+  const [holderName, setHolderName] = useState('');
+  const [cardExpiry, setCardExpiry] = useState('');
+  const [cvc, setCvc] = useState('');
+  const [installments, setInstallments] = useState(1);
+
+  const [cardFocus, setCardFocus] = useState<
+    'name' | 'number' | 'cvc' | 'expiry' | undefined
+  >(undefined);
+
+  const onChangeCardNumber = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setCardNumber(event.target.value);
+      setCardFocus('number');
+    },
+    [],
+  );
+
+  const onChangeHolderName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setHolderName(event.target.value);
+      setCardFocus('name');
+    },
+    [],
+  );
+
+  const onChangeCardExpiry = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setCardExpiry(event.target.value);
+      setCardFocus('expiry');
+    },
+    [],
+  );
+
+  const onChangeCvc = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setCvc(event.target.value);
+      setCardFocus('cvc');
+    },
+    [],
+  );
+
+  const onChangeInstallments = useCallback(
+    (
+      event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
+    ) => {
+      setInstallments(event.target.value as number);
+    },
+    [],
+  );
 
   return (
     <Box className={styles.container}>
       <Cards
-        cvc={123}
-        expiry="1112"
-        focused="name"
-        name="Hiarly Fernandes"
-        number={4901490149014901}
+        cvc={cvc}
+        expiry={cardExpiry}
+        focused={cardFocus}
+        name={holderName}
+        number={cardNumber}
       />
       <form className={styles.formContainer}>
         <PaymentInput
+          value={cardNumber}
+          onChange={onChangeCardNumber}
           title="Card Number"
           required
           name="number"
@@ -72,8 +102,10 @@ const CardPaymentForm: React.FC<IProps> = ({
         <PaymentInput
           title="Card Holder Name"
           required
+          value={holderName}
+          onChange={onChangeHolderName}
           name="name"
-          placeholder="ex: HIARLY F SOUTO"
+          placeholder="ex: YOUR NAME HERE"
         />
         <Box
           display="flex"
@@ -82,6 +114,8 @@ const CardPaymentForm: React.FC<IProps> = ({
           flexDirection="row"
         >
           <PaymentInput
+            value={cardExpiry}
+            onChange={onChangeCardExpiry}
             title="Card Expiry"
             required
             name="expiry"
@@ -90,19 +124,20 @@ const CardPaymentForm: React.FC<IProps> = ({
             inputComponent={ExpiryMask}
           />
           <PaymentInput
-            title="CVV"
+            value={cvc}
+            onChange={onChangeCvc}
+            title="CVC"
             required
-            name="cvv"
+            name="cvc"
             placeholder="ex: 123"
             inputWidth={100}
           />
         </Box>
-        <PaymentInput
-          title="Installments"
-          required={false}
-          name="installments"
-          placeholder="ex: 1"
-          inputComponent={InstallmentsComponent}
+        <SelectInstallments
+          value={installments}
+          onChange={onChangeInstallments}
+          totalCart={totalCart / 100}
+          qtdInstallments={5}
         />
         <Button type="submit" className={styles.orderBt} variant="outlined">
           Order Now

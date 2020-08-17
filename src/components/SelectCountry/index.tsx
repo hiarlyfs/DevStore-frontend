@@ -5,8 +5,6 @@ import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import useStyles from './styles';
-
 interface ICountry {
   name: string;
   alpha2Code: string;
@@ -21,7 +19,6 @@ interface IProps {
 }
 
 const SelectCountry: React.FC<IProps> = ({ value, onChange }: IProps) => {
-  const styles = useStyles();
   const [countries, setCountries] = useState<ICountry[]>([]);
 
   useEffect(() => {
@@ -31,11 +28,12 @@ const SelectCountry: React.FC<IProps> = ({ value, onChange }: IProps) => {
   }, []);
 
   return (
-    <Box>
-      <Typography className={styles.selectCountry}>Your Country</Typography>
+    <Box marginTop="10px">
+      <Typography>Your Country</Typography>
       <Select
         style={{
           height: 40,
+          marginTop: 6,
         }}
         SelectDisplayProps={{
           style: {
