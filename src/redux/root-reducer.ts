@@ -6,6 +6,7 @@ import { createWhitelistFilter } from 'redux-persist-transform-filter';
 import productsReducer from './products/products.reducer';
 import cartReducer from './cart/cart.reducer';
 import userReducer from './user/user.reducer';
+import checkoutReducer from './checkout/checkout.reducer';
 
 const persistConfig = {
   key: 'root',
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   products: productsReducer,
   cart: cartReducer,
   user: userReducer,
+  checkout: checkoutReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

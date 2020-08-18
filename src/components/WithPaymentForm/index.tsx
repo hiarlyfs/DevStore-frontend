@@ -1,23 +1,28 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Dispatch } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import { User } from 'firebase';
+import {
+  selectCheckoutFailure,
+  selectIsOrdering,
+} from '../../redux/checkout/checkout.selectors';
 
-import { clearCart } from '../../redux/cart/cart.actions';
 import WithCart from '../WithCart';
 import WithUser from '../WithUser';
 import { IProductCart } from '../../redux/cart/cart.interfaces';
+import { IReducer } from '../../redux/root-reducer.interface';
 
-interface IMapDispatchToProps {
-  clearCart: () => void;
+interface IMapStateToProps {
+  ordering: boolean;
+  orderError: Error | null;
 }
 
-interface IProps extends IMapDispatchToProps {
+interface IProps extends IMapStateToProps {
   totalCart: number;
   currentUser: User;
   productsCart: IProductCart[];
-  clearCart: () => void;
 }
 
 const WithPaymentForm = (
@@ -27,9 +32,10 @@ const WithPaymentForm = (
     productsCart,
     totalCart,
     currentUser,
-    // eslint-disable-next-line no-shadow
-    clearCart,
-  }: IProps) => {
+    ordering,
+    orderError,
+  }: // eslint-disable-next-line no-shadow
+  IProps) => {
     const itemsCart = productsCart.map((product) => {
       return {
         id: String(product.id),
@@ -45,16 +51,18 @@ const WithPaymentForm = (
         currentUser={currentUser}
         productsCart={itemsCart}
         totalCart={totalCart * 100}
-        clearCart={clearCart}
+        ordering={ordering}
+        orderError={orderError?.message}
       />
     );
   };
 
-  const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
-    clearCart: () => dispatch(clearCart()),
+  const mapStateToProps = createStructuredSelector<IReducer, IMapStateToProps>({
+    orderError: selectCheckoutFailure,
+    ordering: selectIsOrdering,
   });
 
-  return WithCart(WithUser(connect(null, mapDispatchToProps)(Provider)));
+  return WithCart(WithUser(connect(mapStateToProps)(Provider)));
 };
 
 export default WithPaymentForm;

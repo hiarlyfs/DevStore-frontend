@@ -1,4 +1,8 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useCallback } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { useHistory } from 'react-router-dom';
 
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
@@ -7,26 +11,35 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import WithPaymentForm from '../WithPaymentForm';
 import PaymentInput from '../PaymentInput';
 import SelectInstallments from '../SelectInstallments';
 
 import { NumberCardMask, ExpiryMask } from './inputMasks';
-
-import useStyles from './styles';
-
-import { payWithCard } from '../../services/api/apiCheckout';
 import { IWithPaymentProvider } from '../interfaces/WithPaymentForm.interfaces';
 
-type IProps = IWithPaymentProvider;
+import { startCheckoutWithCard } from '../../redux/checkout/checkout.actions';
+
+import useStyles from './styles';
+import { ICardOrderData } from '../../services/api/api.interfaces';
+
+interface IMapDispatchToProps {
+  checkout: (data: ICardOrderData, successCb?: () => void) => void;
+}
+
+interface IProps extends IWithPaymentProvider, IMapDispatchToProps {}
 
 const CardPaymentForm: React.FC<IProps> = ({
   productsCart,
   totalCart,
   currentUser,
-  clearCart,
+  orderError,
+  ordering,
+  checkout,
 }: IProps) => {
   const styles = useStyles();
+  const history = useHistory();
 
   const [cardNumber, setCardNumber] = useState('');
   const [holderName, setHolderName] = useState('');
@@ -70,6 +83,17 @@ const CardPaymentForm: React.FC<IProps> = ({
     [],
   );
 
+  const onChangeInstallments = useCallback(
+    (
+      event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
+    ) => {
+      setInstallments(event.target.value as number);
+    },
+    [],
+  );
+
+  const redirectAfterCheckout = (): void => history.push('/user/orders');
+
   const onSubmitForm = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const data = {
@@ -82,19 +106,8 @@ const CardPaymentForm: React.FC<IProps> = ({
       installments,
       items: productsCart,
     };
-    payWithCard(data).then(() => {
-      clearCart();
-    });
+    checkout(data, redirectAfterCheckout);
   };
-
-  const onChangeInstallments = useCallback(
-    (
-      event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
-    ) => {
-      setInstallments(event.target.value as number);
-    },
-    [],
-  );
 
   return (
     <Box className={styles.container}>
@@ -179,9 +192,30 @@ const CardPaymentForm: React.FC<IProps> = ({
         <Button type="submit" className={styles.orderBt} variant="outlined">
           Order Now
         </Button>
+        <Box
+          width="100%"
+          marginTop="10px"
+          display="flex"
+          justifyContent="center"
+        >
+          {ordering && <CircularProgress />}
+          {!ordering && orderError && (
+            <Typography className={styles.errorMessage}>
+              An error occured. Se your data and try again or use another
+              payment form.
+            </Typography>
+          )}
+        </Box>
       </form>
     </Box>
   );
 };
 
-export default WithPaymentForm(CardPaymentForm);
+const mapDispatchToProps = (dispatch: Dispatch): IMapDispatchToProps => ({
+  checkout: (data, successCb) =>
+    dispatch(startCheckoutWithCard(data, successCb)),
+});
+
+export default WithPaymentForm(
+  connect(null, mapDispatchToProps)(CardPaymentForm),
+);

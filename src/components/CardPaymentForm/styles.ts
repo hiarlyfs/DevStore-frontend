@@ -35,6 +35,11 @@ const useStyles = makeStyles({
       backgroundColor: '#0009',
     },
   },
+
+  errorMessage: {
+    fontSize: 16,
+    color: 'red',
+  },
 });
 
 export default useStyles;
