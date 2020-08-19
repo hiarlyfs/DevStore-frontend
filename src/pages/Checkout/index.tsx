@@ -1,36 +1,21 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { User } from 'firebase';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import WithUser from '../../components/WithUser';
 import OrderDescription from '../../components/OrderDescription';
 import CardPaymentForm from '../../components/CardPaymentForm';
 import BankSlipPaymentForm from '../../components/BankSlipPaymentForm';
+import RequiredUser from '../../components/RequiredUser';
 
 import useStyles from './styles';
 
-interface IProps {
-  currentUser: User;
-}
-
-const Checkout: React.FC<IProps> = ({ currentUser }: IProps) => {
-  const history = useHistory();
+const Checkout: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState('card');
 
   const payWithCard = useCallback(() => setPaymentMethod('card'), []);
   const payWithBankSlip = useCallback(() => setPaymentMethod('bankSlip'), []);
-
-  useEffect(() => {
-    if (!currentUser)
-      history.push({
-        pathname: '/login',
-        state: { afterLoginRedirectTo: '/checkout' },
-      });
-  }, [currentUser, history]);
 
   const styles = useStyles();
 
@@ -57,4 +42,4 @@ const Checkout: React.FC<IProps> = ({ currentUser }: IProps) => {
   );
 };
 
-export default WithUser(Checkout);
+export default RequiredUser(Checkout, '/checkout');

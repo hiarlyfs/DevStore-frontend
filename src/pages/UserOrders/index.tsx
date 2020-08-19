@@ -3,6 +3,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
+import RequiredUser from '../../components/RequiredUser';
 import UserOrder from '../../components/UserOrder';
 
 import useStyles from './styles';
@@ -38,4 +39,4 @@ const UserOrders: React.FC = () => {
   );
 };
 
-export default UserOrders;
+export default RequiredUser(UserOrders, '/user/orders');
