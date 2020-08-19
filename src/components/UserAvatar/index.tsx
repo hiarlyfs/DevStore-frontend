@@ -49,7 +49,7 @@ const UserAvatar: React.FC<IProps> = ({ currentUser, logout }: IProps) => {
         <ArrowDropUpIcon className={styles.arrowUp} />
         {currentUser ? (
           <>
-            <Link className={styles.orders} to="/orders">
+            <Link className={styles.orders} to="/user/orders">
               My orders
             </Link>
             <Box onClick={() => logout()} className={styles.logoutContainer}>
