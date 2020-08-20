@@ -8,6 +8,3 @@ const OrderTypes = {
 };
 
 export default OrderTypes;
-
-// TODO: Colocar logica de pegar os pedidos de
-// um usuário no redux

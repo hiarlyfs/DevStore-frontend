@@ -21,9 +21,13 @@ const OrderReducerState = (
     case OrderTypes.FETCH_SINGLE_ORDER_FAILURE:
       return { ...state, error: action.payload as Error };
     case OrderTypes.FETCH_ORDERS_SUCCESS:
-      return { ...state, orders: action.payload as Order[] };
+      return { ...state, orders: action.payload as Order[], fetching: false };
     case OrderTypes.FETCH_SINGLE_ORDER_SUCCESS:
-      return { ...state, selectedOrder: action.payload as OrderDetails };
+      return {
+        ...state,
+        selectedOrder: action.payload as OrderDetails,
+        fetching: false,
+      };
     default:
       return state;
   }

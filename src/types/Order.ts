@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 export type Order = {
-  orderData: string;
+  data: string;
   amount: number;
   status: string;
-  number: number;
+  orderId: number;
 };
 
 export type ItemOrder = {
