@@ -11,6 +11,8 @@ export type ItemOrder = {
   title: string;
   unit_price: number;
   quantity: number;
+  image: string;
+  category: string;
 };
 
 export type OrderDetails = {

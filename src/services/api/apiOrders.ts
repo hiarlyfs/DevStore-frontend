@@ -1,5 +1,5 @@
 import api from './index';
-import { Order } from '../../types/Order';
+import { Order, OrderDetails } from '../../types/Order';
 
 interface IGetOrdersReponse {
   clientId: string;
@@ -10,6 +10,10 @@ interface IGetOrdersReponse {
       status: string;
     };
   };
+}
+
+interface IGetOrderDetailsReponse {
+  transaction: OrderDetails;
 }
 
 export async function getAllOrdersFromClient(
@@ -33,6 +37,18 @@ export async function getAllOrdersFromClient(
     );
 
     return orders;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function getOrderById(orderId: string): Promise<OrderDetails> {
+  try {
+    const { data } = await api.get<IGetOrderDetailsReponse>(
+      `/orders?orderId=${orderId}`,
+    );
+
+    return data.transaction;
   } catch (err) {
     throw new Error(err);
   }

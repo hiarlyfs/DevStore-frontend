@@ -12,6 +12,7 @@ const Cart = lazy(() => import('./pages/Cart'));
 const Login = lazy(() => import('./pages/Login'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const UserOrders = lazy(() => import('./pages/UserOrders'));
+const OrderDetails = lazy(() => import('./pages/OrderDetails'));
 
 interface IMapDispatchToProps {
   checkUser: () => void;
@@ -20,7 +21,9 @@ interface IMapDispatchToProps {
 const Routes: React.FC<IMapDispatchToProps> = ({
   checkUser,
 }: IMapDispatchToProps) => {
-  useEffect(() => checkUser(), [checkUser]);
+  useEffect(() => {
+    checkUser();
+  }, [checkUser]);
   return (
     <Suspense fallback={<div>oi</div>}>
       <BrowserRouter>
@@ -31,6 +34,7 @@ const Routes: React.FC<IMapDispatchToProps> = ({
         <Route path="/login" exact component={Login} />
         <Route path="/checkout" exact component={Checkout} />
         <Route path="/user/orders" exact component={UserOrders} />
+        <Route path="/user/orders/:orderId" exact component={OrderDetails} />
       </BrowserRouter>
     </Suspense>
   );
