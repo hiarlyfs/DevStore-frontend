@@ -8,6 +8,7 @@ const useStyles = makeStyles({
     marginTop: 250,
     width: '100%',
     alignItems: 'center',
+    paddingBottom: 20,
   },
 
   headerInformations: {
