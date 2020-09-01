@@ -39,18 +39,6 @@ const useStyles = makeStyles({
     color: '#555',
   },
 
-  simulatePaymentBt: {
-    marginLeft: 10,
-    backgroundColor: '#228B22',
-    color: '#fff',
-    fontSize: 14,
-
-    '&:hover': {
-      backgroundColor: '#228B22',
-      opacity: 0.9,
-    },
-  },
-
   paymentIcon: {
     marginLeft: 10,
   },

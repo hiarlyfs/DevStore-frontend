@@ -11,7 +11,6 @@ import { Dispatch } from 'redux';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
 
 import { getOrderStart } from '../../redux/orders/order.actions';
 import {
@@ -101,15 +100,6 @@ const OrderInformations: React.FC<IProps> = ({
                 <Typography className={styles.informationValue}>
                   {order.status}
                 </Typography>
-                {order.status === 'waiting_payment' &&
-                  order.payment_method === 'boleto' && (
-                    <Button
-                      className={styles.simulatePaymentBt}
-                      variant="outlined"
-                    >
-                      Simulate Payment
-                    </Button>
-                  )}
               </Box>
             </Box>
           </Box>
