@@ -16,12 +16,14 @@ export type ItemOrder = {
 };
 
 export type OrderDetails = {
+  amount: number;
+  date_created: string;
   status: string;
   id: number;
   payment_method: string;
   card_holder: string;
   card_brand: string;
-  card_first_digits: number;
+  card_last_digits: number;
   installments: number;
   boleto_expiration_date: string;
   items: ItemOrder[];

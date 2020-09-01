@@ -27,6 +27,7 @@ const OrderReducerState = (
         ...state,
         selectedOrder: action.payload as OrderDetails,
         fetching: false,
+        error: null,
       };
     default:
       return state;
