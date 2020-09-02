@@ -47,6 +47,20 @@ const useStyles = makeStyles({
     textDecoration: 'none',
     color: '#000',
   },
+
+  adminOption: {
+    fontSize: '18px',
+    color: '#000',
+    padding: 15,
+    fontWeight: 'bold',
+    position: 'absolute',
+    left: '10vw',
+    bottom: 0,
+
+    '&:hover': {
+      backgroundColor: '#e9e9e9',
+    },
+  },
 });
 
 export default useStyles;

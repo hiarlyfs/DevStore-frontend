@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Menu from './components/Menu';
 import { checkUserSession } from './redux/user/user.actions';
 
+const Admin = lazy(() => import('./pages/Admin'));
 const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
 const Cart = lazy(() => import('./pages/Cart'));
@@ -28,6 +29,7 @@ const Routes: React.FC<IMapDispatchToProps> = ({
     <Suspense fallback={<div>oi</div>}>
       <BrowserRouter>
         <Route path="/" component={Menu} />
+        <Route path="/admin" component={Admin} />
         <Route path="/" exact component={Home} />
         <Route path="/shop" exact component={Shop} />
         <Route path="/cart" exact component={Cart} />

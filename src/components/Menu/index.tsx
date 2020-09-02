@@ -18,7 +18,11 @@ const Menu: React.FC = () => {
   return (
     <Box className={styles.container}>
       <img className={styles.logoLoja} src={logo} alt="Logo loja" />
+
       <Box id="menu" className={styles.containerMenuOption}>
+        <Link className={styles.link} to="/admin">
+          <Typography className={styles.adminOption}>Admin</Typography>
+        </Link>
         <Link className={styles.link} to="/">
           <Typography className={styles.menuOption}>Home</Typography>
         </Link>
