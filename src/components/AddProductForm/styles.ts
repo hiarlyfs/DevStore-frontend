@@ -5,6 +5,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     width: 350,
+    paddingBottom: 20,
   },
 
   fieldContainer: {

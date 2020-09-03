@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
 import ImageUploader from 'react-images-upload';
 
 import { createProduct } from '../../services/api/apiAdmin';
@@ -13,9 +14,10 @@ import useStyles from './styles';
 const AddProductForm: React.FC = () => {
   const styles = useStyles();
 
-  const [picture, setPicture] = useState<File>();
+  const [picture, setPicture] = useState<Blob>();
   const [productName, setProductName] = useState<string>('');
-  const [productPrice, setProductPrice] = useState<number>(0);
+  const [productPrice, setProductPrice] = useState<string>('');
+  const [productCategory, setProductCategory] = useState<string>('');
 
   const onDrop = useCallback((files: File[]): void => {
     setPicture(files[0]);
@@ -30,17 +32,29 @@ const AddProductForm: React.FC = () => {
 
   const onChangeProductPrice = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>): void => {
-      setProductPrice(Number.parseFloat(event.target.value));
+      setProductPrice(event.target.value);
     },
     [],
   );
 
+  const onChangeProductCategory = useCallback(
+    (
+      event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
+    ): void => {
+      setProductCategory(event.target.value as string);
+    },
+    [],
+  );
+
+  // TODO: Colocar logica de cadastart novo produto
+  // no redux. A fim de permitir a exibição de um CircularDiplay
   const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     createProduct({
       productName,
       productPrice,
-      img: picture,
+      img: picture as File,
+      productCategory,
     });
   };
 
@@ -66,6 +80,24 @@ const AddProductForm: React.FC = () => {
           type="number"
           label="price"
         />
+      </Box>
+      <Box className={styles.fieldContainer}>
+        <Typography className={styles.fieldTitle}>Product category</Typography>
+        <Select
+          required
+          native
+          value={productCategory}
+          onChange={onChangeProductCategory}
+          inputProps={{
+            name: 'age',
+            id: 'age-native-simple',
+          }}
+        >
+          <option aria-label="None" value="" />
+          <option value="frameworks">Frameworks</option>
+          <option value="languages">Languages</option>
+          <option value="tools">Tools</option>
+        </Select>
       </Box>
       <Box className={styles.fieldContainer}>
         <Typography className={styles.fieldTitle}>Product Image</Typography>
