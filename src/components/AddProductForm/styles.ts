@@ -29,6 +29,12 @@ const useStyles = makeStyles({
       backgroundColor: '#0008',
     },
   },
+
+  circularProgress: {
+    position: 'absolute',
+    marginLeft: 150,
+    marginTop: 180,
+  },
 });
 
 export default useStyles;

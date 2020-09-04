@@ -8,6 +8,7 @@ import cartReducer from './cart/cart.reducer';
 import userReducer from './user/user.reducer';
 import checkoutReducer from './checkout/checkout.reducer';
 import ordersReducer from './orders/order.reducer';
+import newProductReducer from './newProduct/newProduct.reducer';
 
 const persistConfig = {
   key: 'root',
@@ -16,6 +17,7 @@ const persistConfig = {
     createWhitelistFilter('user', ['user']),
     createWhitelistFilter('cart'),
   ],
+  blacklist: ['newProduct'],
 };
 
 const rootReducer = combineReducers({
@@ -24,6 +26,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   checkout: checkoutReducer,
   orders: ordersReducer,
+  newProduct: newProductReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

@@ -4,6 +4,7 @@ import { productsSagas } from './products/products.sagas';
 import { userSagas } from './user/user.sagas';
 import { checkoutSagas } from './checkout/checkout.sagas';
 import { orderSagas } from './orders/orders.sagas';
+import { newProductSagas } from './newProduct/newProduct.sagas';
 
 export default function* rootSaga(): Generator<AllEffect<CallEffect<void>>> {
   yield all([
@@ -11,5 +12,6 @@ export default function* rootSaga(): Generator<AllEffect<CallEffect<void>>> {
     call(userSagas),
     call(checkoutSagas),
     call(orderSagas),
+    call(newProductSagas),
   ]);
 }

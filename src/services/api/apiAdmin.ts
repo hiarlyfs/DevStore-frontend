@@ -1,16 +1,13 @@
 import api from './index';
+import { Product } from '../../types/Products';
+import { INewProduct } from '../../redux/newProduct/newProduct.interfaces';
 
 export async function createProduct({
   productName,
   productPrice,
   img,
   productCategory,
-}: {
-  productName: string;
-  productPrice: string;
-  img: Blob | string;
-  productCategory: string;
-}): Promise<any> {
+}: INewProduct): Promise<Product> {
   try {
     const formData = new FormData();
 
@@ -23,8 +20,8 @@ export async function createProduct({
         'Content-Type': 'multipart/form-data',
       },
     });
-    console.log(result);
-    return result;
+
+    return result.data;
   } catch (err) {
     console.log(err);
     throw new Error('An error occurred while creating a product');
