@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 import Box from '@material-ui/core/Box';
@@ -33,7 +34,6 @@ const Cart: React.FC<IProps> = ({ productsCart, totalCart }: IProps) => {
         </Box>
       </Box>
       {productsCart.map((product) => (
-        // eslint-disable-next-line react/jsx-props-no-spreading
         <CartItem key={product.id} {...product} />
       ))}
 

@@ -3,6 +3,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import Menu from './components/Menu';
 import { checkUserSession } from './redux/user/user.actions';
 
@@ -26,7 +28,7 @@ const Routes: React.FC<IMapDispatchToProps> = ({
     checkUser();
   }, [checkUser]);
   return (
-    <Suspense fallback={<div>oi</div>}>
+    <Suspense fallback={<CircularProgress />}>
       <BrowserRouter>
         <Route path="/" component={Menu} />
         <Route path="/admin" component={Admin} />

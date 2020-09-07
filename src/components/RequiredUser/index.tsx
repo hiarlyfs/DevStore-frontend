@@ -27,7 +27,6 @@ const RequiredUser = (
         });
     }, [currentUser, history]);
 
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <WrappedComponent {...props} />;
   };
 

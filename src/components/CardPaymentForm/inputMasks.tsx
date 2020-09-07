@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 import MaskedInput from 'react-text-mask';
@@ -10,7 +11,6 @@ export const NumberCardMask: React.FC<InputBaseComponentProps> = (
 
   return (
     <MaskedInput
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...other}
       ref={inputRef}
       mask={[
@@ -46,7 +46,6 @@ export const ExpiryMask: React.FC<InputBaseComponentProps> = (
 
   return (
     <MaskedInput
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...other}
       ref={inputRef}
       mask={[/\d/, /\d/, '/', /\d/, /\d/]}

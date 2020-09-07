@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { ComponentType } from 'react';
 
 import { connect } from 'react-redux';
@@ -32,7 +33,6 @@ const WithCart = (BaseComponent: ComponentType<any>): React.FC => {
     ...props
   }: IProps) => {
     return (
-      // eslint-disable-next-line react/jsx-props-no-spreading
       <BaseComponent {...props} productsCart={products} totalCart={total} />
     );
   };

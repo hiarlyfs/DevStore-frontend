@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 import { Link } from 'react-router-dom';
@@ -71,7 +72,6 @@ const Cart: React.FC<IProps> = ({
         <Box className={styles.productsContainer}>
           <ArrowDropUpIcon className={styles.arrowUp} />
           {productsCart.map((product) => (
-            // eslint-disable-next-line react/jsx-props-no-spreading
             <ProductCart key={product.id} {...product} />
           ))}
           {productsCart.length > 0 ? (

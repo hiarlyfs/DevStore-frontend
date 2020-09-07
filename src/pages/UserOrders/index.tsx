@@ -59,7 +59,7 @@ const UserOrders: React.FC<IProps> = ({
           <Typography className={styles.title}>My orders</Typography>
           <Box className={styles.ordersContainer}>
             {orders.map((order) => (
-              <Box marginTop="20px">
+              <Box key={order.orderId} marginTop="20px">
                 <UserOrder
                   amount={order.amount / 100}
                   orderData={order.data}

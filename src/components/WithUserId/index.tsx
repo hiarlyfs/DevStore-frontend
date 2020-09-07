@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -18,7 +19,6 @@ const WithUserId = (WrappedComponent: React.ComponentType<any>): React.FC => {
     userId,
     ...props
   }: IMapStateToProps) => {
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <WrappedComponent {...props} userId={userId} />;
   };
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IProductCart } from './cart.interfaces';
 import { Product } from '../../types/Products';
 
@@ -48,7 +49,6 @@ export function removeUnitProduct(
   products: IProductCart[],
   id: number,
 ): IProductCart[] {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const prodToUpdate = findProductById(products, id)!;
   if (prodToUpdate.quantity - 1 > 0) {
     return products.map((prod) =>

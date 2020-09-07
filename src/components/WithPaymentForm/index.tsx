@@ -34,8 +34,7 @@ const WithPaymentForm = (
     currentUser,
     ordering,
     orderError,
-  }: // eslint-disable-next-line no-shadow
-  IProps) => {
+  }: IProps) => {
     const itemsCart = productsCart.map((product) => {
       return {
         id: String(product.id),

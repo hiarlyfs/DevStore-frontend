@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 import { connect } from 'react-redux';
@@ -21,7 +22,6 @@ const WithUser = (WrappedComponent: React.ComponentType<any>): React.FC => {
     user,
     ...props
   }: IMapStateToProps) => {
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <WrappedComponent {...props} currentUser={user} />;
   };
   return connect(mapStateToProps)(UserProvider);
