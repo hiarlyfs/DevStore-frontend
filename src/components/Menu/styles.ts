@@ -9,6 +9,11 @@ const useStyles = makeStyles({
     marginTop: 35,
   },
 
+  title: {
+    fontSize: 40,
+    fontWeight: 'bold',
+  },
+
   containerMenuOption: {
     width: '100vw',
     display: 'flex',

@@ -8,8 +8,6 @@ import { Link } from 'react-router-dom';
 import Cart from '../Cart';
 import UserAvatar from '../UserAvatar';
 
-import logo from '../../asssets/logo.png';
-
 import useStyles from './styles';
 
 const Menu: React.FC = () => {
@@ -17,7 +15,7 @@ const Menu: React.FC = () => {
 
   return (
     <Box className={styles.container}>
-      <img className={styles.logoLoja} src={logo} alt="Logo loja" />
+      <Typography className={styles.title}>DevStore</Typography>
 
       <Box id="menu" className={styles.containerMenuOption}>
         <Link className={styles.link} to="/admin">
