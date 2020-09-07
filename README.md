@@ -1,5 +1,5 @@
 DevStore: A store for developers.<br/>
-Access [DevStore](https://vercel.com/hiarlyfs/devstore-frontend) to use the application.
+Access [DevStore](https://devstore-frontend.vercel.app/) to use the application.
 
 ## Description
 
@@ -21,7 +21,7 @@ This is the frontend of [DevStore Backend](https://github.com/hiarlyfs/DevStore-
 $ yarn install
 ```
 
-. Create the .env filei n the root directory;<br/>
+. Create the .env file in the root directory;<br/>
 . Create an firebase project;<br/>
 . In the .env set the:
 
